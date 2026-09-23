@@ -1,7 +1,7 @@
 build,component,spec,example_sku
 budget_am4,cpu,6-core AM4,AMD Ryzen 5 5600
 budget_am4,gpu,8 GB entry GPU,NVIDIA GeForce RTX 5050
-budget_am4,ram,16 GB DDR4-3200 (2x8),Kingston FURY Beast 16GB DDR4-3200
+budget_am4,ram,16 GB DDR4-3200 (2x8),2x Colorful BATTLE-AX 8GB DDR4-3200 CL16
 budget_am4,ssd,1 TB SATA or budget NVMe,DEXP C100 1TB
 budget_am4,motherboard,A520 mATX,MSI A520M-A PRO
 budget_am4,cooler,"tower cooler 92 mm, 2 heatpipes",ID-COOLING SE-902-SD V3
