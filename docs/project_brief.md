@@ -21,12 +21,15 @@ business opportunities does it create?
 | H1 | Memory (RAM + SSD) share of a typical build cost has grown significantly since 2025 | Build cost index by component |
 | H2 | In Russia the price rise comes with a lag and is amplified or dampened by the RUB exchange rate and parallel imports | Compare USD and RUB indices, adjusted for FX |
 | H3 | Contract DRAM prices (TrendForce) lead retail prices by 1–3 months, so they can be used as a "when to buy" signal | Lag correlation between contract and retail prices |
-| H4 | Expensive new hardware increases demand for alternatives: used/refurbished PCs, PC rental, cloud gaming | Market sizing + unit economics of one selected venture |
+| H4 | Budget buyers are pushed back to AM4 + DDR4: at ~90k RUB an AM5 build no longer fits | Fixed-budget view: best build per budget level, by month |
+| H5 | Expensive new hardware increases demand for alternatives: used/refurbished PCs, PC rental, cloud gaming | Market sizing + unit economics of one selected venture |
 
 ## 3. Scope
 
 **In scope**
-- 3 reference builds (budget / mid / high-end), see `data/reference/builds.csv`
+- Fixed basket: 3 AM5 builds (budget / mid / high-end)
+- Fixed budget: best build for 90k / 150k / 250k RUB, starting from the AM4 build
+- All builds: `data/reference/builds.csv`
 - Two markets: Russia (RUB) and global (USD)
 - Period: January 2024 to today, monthly granularity
 - One business case (new venture) with market sizing and unit economics
@@ -49,8 +52,8 @@ business opportunities does it create?
 |------|-----------|--------|
 | 1 | Framing & data sourcing | Brief, reference builds, list of data sources |
 | 2 | Data collection & cleaning | Monthly price dataset, both markets |
-| 3 | Analysis (H1–H3) | Build cost index, lag analysis, notebook |
-| 4 | Business case (H4) | Market sizing, unit economics model |
+| 3 | Analysis (H1–H4) | Build cost index, lag analysis, notebook |
+| 4 | Business case (H5) | Market sizing, unit economics model |
 | 5 | Packaging | Dashboard, deck, final README |
 
 ## 6. Risks
