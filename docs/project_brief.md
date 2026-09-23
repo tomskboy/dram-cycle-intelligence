@@ -1,6 +1,6 @@
-# Project Brief — Gaming PC Cost Index
+# Project brief: Gaming PC Cost Index
 
-> Status: draft v0.1 · Owner: project author · Last updated: 2026-09
+Draft, September 2026.
 
 ## 1. Problem
 
