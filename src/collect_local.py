@@ -43,30 +43,35 @@ SITES = {
         "url": "https://www.dns-shop.ru/search/?q={q}",
         "link": r"dns-shop\.ru/product/[0-9a-f]+/",
         "condition": "new",
+        "scrolls": 2,  # search is not sorted by price
     },
     "ozon": {
         "name": "Ozon",
         "url": "https://www.ozon.ru/search/?text={q}&sorting=price",
         "link": r"ozon\.ru/product/",
         "condition": "new",
+        "scrolls": 0,
     },
     "wb": {
         "name": "Wildberries",
         "url": "https://www.wildberries.ru/catalog/0/search.aspx?search={q}&sort=priceup",
         "link": r"wildberries\.ru/catalog/\d+/detail\.aspx",
         "condition": "new",
+        "scrolls": 0,
     },
     "ym": {
         "name": "Yandex Market",
         "url": "https://market.yandex.ru/search?text={q}&how=aprice",
         "link": r"market\.yandex\.ru/(product--|card/)",
         "condition": "new",
+        "scrolls": 0,
     },
     "avito": {
         "name": "Avito",
         "url": "https://www.avito.ru/rossiya?q={q}&s=1",
         "link": r"avito\.ru/[^?#]+_\d{6,}",
         "condition": "used",
+        "scrolls": 0,
     },
 }
 
@@ -125,20 +130,33 @@ def matches(title, rule, condition, text=""):
     return not any(re.search(p, full) for p in rule.get("exclude_text", []))
 
 
+def wait_for_cards(page, link, timeout_ms=12000, poll_ms=400):
+    """Return as soon as product cards with prices are on the page and their
+    number stopped growing (DNS fills in prices a moment after the cards)."""
+    cards, stable = [], 0
+    for _ in range(timeout_ms // poll_ms):
+        page.wait_for_timeout(poll_ms)
+        now = page.evaluate(EXTRACT_JS, link)
+        stable = stable + 1 if now and len(now) == len(cards) else 0
+        cards = now
+        if stable >= 2:
+            break
+    return cards
+
+
 def load_results(page, site, query, debug_name):
     url = site["url"].format(q=urllib.parse.quote(query))
     page.goto(url, wait_until="domcontentloaded", timeout=60000)
-    for attempt in range(2):
-        page.wait_for_timeout(4000)
-        for _ in range(4):  # lazy-loaded listings
-            page.mouse.wheel(0, 2500)
-            page.wait_for_timeout(1200)
-        cards = page.evaluate(EXTRACT_JS, site["link"])
-        if cards or attempt:
-            break
-        print(f"    no products on the page. If you see a captcha or a city prompt "
-              f"in the browser, deal with it there, then press Enter here.")
+    cards = wait_for_cards(page, site["link"])
+    if not cards:
+        print("    no products on the page. If you see a captcha or a city prompt "
+              "in the browser, deal with it there, then press Enter here.")
         input()
+        cards = wait_for_cards(page, site["link"])
+    # sites sorted by price show the cheapest on the first screen already
+    for _ in range(site["scrolls"]):
+        page.mouse.wheel(0, 2500)
+        cards = wait_for_cards(page, site["link"], timeout_ms=3000)
     if not cards and debug_name:
         DEBUG_DIR.mkdir(parents=True, exist_ok=True)
         page.screenshot(path=str(DEBUG_DIR / f"{debug_name}.png"), full_page=True)
@@ -189,7 +207,7 @@ def main():
                     })
                 best = f"{found[0][0]} ₽  {found[0][1][:70]}" if found else "nothing matched"
                 print(f"  {comp}: {best}  ({len(cards)} cards, {len(found)} matched)")
-                time.sleep(2)
+                time.sleep(1)
         ctx.close()
 
     if not rows:
