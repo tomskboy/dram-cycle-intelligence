@@ -75,6 +75,18 @@ DNS, the marketplaces and Avito block requests from non-Russian IPs, so they are
 
 More detail: [project brief](docs/project_brief.md).
 
+## Collecting prices
+
+```
+pip install -r requirements.txt
+playwright install chromium
+
+python src/collect_regard.py    # Regard, works from anywhere
+python src/collect_local.py     # DNS, Ozon, WB, Yandex Market, Avito; run from a Russian IP
+```
+
+`collect_local.py` opens a real browser window. On the first run pick your city on DNS and solve captchas by hand; the browser profile is saved for next runs. Search rules for each component live in [`src/components.py`](src/components.py).
+
 ## Repository structure
 
 ```

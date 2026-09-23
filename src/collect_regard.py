@@ -18,14 +18,12 @@ import urllib.request
 from datetime import date
 from pathlib import Path
 
+from components import PSU_BRANDS
+
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/128.0 Safari/537.36")
 SORT_PRICE_ASC = {"sort": ["orderByPrice", "asc"]}
 MAX_PAGES = 3
-
-# PSU brands people actually put in a gaming PC. The very cheapest listings
-# (ExeGate, CBR, no-name OEM) are excluded on purpose.
-PSU_BRANDS = r"deepcool|aerocool|zalman|chieftec|cougar|be quiet|thermaltake|1stplayer|montech|xpg|cooler master|corsair|seasonic|fsp|powercase|formula"
 
 # build -> component -> (search queries, filter on "title | brief", units needed)
 CLASSES = {
