@@ -28,7 +28,7 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-from components import CLASSES, USED_EXCLUDE
+from components import CLASSES, NOT_A_PART, USED_EXCLUDE
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE_DIR = ROOT / ".browser-profile"
@@ -77,7 +77,9 @@ EXTRACT_JS = r"""
 (linkPattern) => {
   const re = new RegExp(linkPattern);
   const norm = (h) => h.split('?')[0].split('#')[0];
-  const priceRe = /(\d[\d\s   ]{0,9})\s*₽(?!\s*\/\s*мес)/g;
+  // thousands are grouped by spaces on the same line only; with \s a spec value
+  // on the line above ("4") stuck to the price ("5 299 ₽" -> 45299)
+  const priceRe = /(?<![\d.,])(\d{1,3}(?:[    ]\d{3})*|\d{4,7})[    ]*₽(?![    ]*\/[    ]*мес)/g;
   const seen = new Set();
   const out = [];
   for (const a of document.querySelectorAll('a[href]')) {
@@ -94,7 +96,7 @@ EXTRACT_JS = r"""
     seen.add(key);
     const text = card.innerText || '';
     const prices = [...text.matchAll(priceRe)]
-      .map(m => parseInt(m[1].replace(/[\s   ]/g, ''), 10))
+      .map(m => parseInt(m[1].replace(/[    ]/g, ''), 10))
       .filter(x => x >= 100);
     let title = links.map(x => (x.innerText || x.getAttribute('title') || '').trim())
       .sort((x, y) => y.length - x.length)[0] || '';
@@ -102,19 +104,25 @@ EXTRACT_JS = r"""
       const named = card.querySelector('[itemprop=name], [title]');
       title = (named && (named.innerText || named.getAttribute('title')) || text.split('\n')[0]).trim();
     }
-    out.push({url: key, title: title.replace(/\s+/g, ' '), prices});
+    out.push({url: key, title: title.replace(/\s+/g, ' '), text: text.replace(/\s+/g, ' ').slice(0, 600), prices});
   }
   return out;
 }
 """
 
 
-def matches(title, rule, condition):
+def matches(title, rule, condition, text=""):
+    """Include rules look at the title and the spec line under it (DNS keeps
+    DDR type and frequency there, not in the title). Exclude rules look at the
+    title only, because specs are full of words like "радиатор: нет"."""
     t = title.lower()
-    if not all(re.search(p, t) for p in rule["include"]):
+    full = f"{t} | {text.lower()}"
+    if not all(re.search(p, full) for p in rule["include"]):
         return False
-    excludes = list(rule["exclude"]) + ([USED_EXCLUDE] if condition == "used" else [])
-    return not any(re.search(p, t) for p in excludes)
+    excludes = [NOT_A_PART] + rule["exclude"] + ([USED_EXCLUDE] if condition == "used" else [])
+    if any(re.search(p, t) for p in excludes):
+        return False
+    return not any(re.search(p, full) for p in rule.get("exclude_text", []))
 
 
 def load_results(page, site, query, debug_name):
@@ -166,7 +174,7 @@ def main():
                     continue
                 found = []
                 for c in cards:
-                    if not c["prices"] or not matches(c["title"], rule, site["condition"]):
+                    if not c["prices"] or not matches(c["title"], rule, site["condition"], c.get("text", "")):
                         continue
                     price = min(c["prices"])
                     if price >= rule["min_price"]:
