@@ -55,12 +55,14 @@ Prices are tracked per component class, not a single SKU, so the series survives
 
 | Source | What | Market |
 |---|---|---|
-| Retail price archives | Monthly component prices | RU, global |
+| Regard (`src/collect_regard.py`) | Current prices, cheapest in-stock per component class | RU |
+| DNS, Ozon, Wildberries, Yandex Market, Avito | Current prices incl. marketplaces and used market | RU |
+| Retail price archives | Historical monthly component prices | RU, global |
 | TrendForce / DRAMeXchange | Contract and spot DRAM prices | global |
 | Central Bank of Russia | USD/RUB exchange rate | RU |
 | Samsung, SK hynix, Micron reports | Capacity, capex, HBM share | global |
 
-The detailed list with links and collection method will be in `docs/data_sources.md`.
+DNS, the marketplaces and Avito block requests from non-Russian IPs, so they are collected from a local machine. The detailed list with links and collection method will be in `docs/data_sources.md`.
 
 ## Approach
 
