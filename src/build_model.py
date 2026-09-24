@@ -352,6 +352,9 @@ for ws in wb.worksheets:
                 c.font = Font(name=FONT, bold=c.font.bold, italic=c.font.italic,
                               color=c.font.color, size=c.font.size)
 
+# openpyxl writes no cached values, so ask Excel to compute everything on open
+wb.calculation.fullCalcOnLoad = True
+
 OUT.parent.mkdir(exist_ok=True)
 wb.save(OUT)
 print(f"saved {OUT}")
