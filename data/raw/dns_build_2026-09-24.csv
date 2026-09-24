@@ -1,0 +1,9 @@
+date,market,retailer,build,component,title,price,currency,source
+2026-09-24,RU,DNS,budget_am4,cpu,Процессор AMD Ryzen 5 5600 OEM,11999,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,gpu,Видеокарта MSI GeForce RTX 5050 SHADOW 2X OC,39499,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,ram,Оперативная память Digma DGMAD43200016D 16 ГБ,12599,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,ssd,"1024 ГБ 2.5"" SATA накопитель DEXP C100",10999,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,motherboard,Материнская плата MSI PRO A520M-S,4599,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,cooler,Кулер для процессора ID-COOLING SE-902-SD V3,850,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,psu,Блок питания Formula ECO-500W,2299,RUB,src/collect_local.py run by author (Moscow)
+2026-09-24,RU,DNS,budget_am4,case,Корпус ExeGate BAA-109U2,1450,RUB,src/collect_local.py run by author (Moscow)

@@ -1,65 +1,49 @@
-# Project brief: Gaming PC Cost Index
+# Бриф проекта: цикл памяти и игровой ПК
 
-Draft, September 2026.
+Сентябрь 2026.
 
-## 1. Problem
+## Проблема
 
-Since late 2025 the AI buildout has been absorbing memory production capacity
-(HBM and server DDR5). Memory makers shifted wafers away from consumer DRAM and
-NAND, and prices for RAM, SSDs and, partly, GPUs rose sharply. For gamers this
-means a more expensive PC; for retailers, system integrators and gaming clubs it
-means pressure on margins and on demand.
+С конца 2025 года производители памяти переводят мощности на HBM и серверную DRAM для ИИ-дата-центров. Обычной памяти для ПК и смартфонов становится меньше, и она резко дорожает. Для геймера это значит более дорогой компьютер, для ритейла и сборщиков ПК — меньше покупателей и больше денег, замороженных в закупке.
 
-**Key question:** How much has the cost of a gaming PC changed because of the AI
-boom, how does this differ between Russia and the global market, and which
-business opportunities does it create?
+**Главный вопрос:** кто заработал на подорожании памяти, кто за него платит и что делать ритейлу и сборщикам, когда цикл развернётся?
 
-## 2. Hypotheses
+## Гипотезы и результат
 
-| # | Hypothesis | How we test it |
-|---|------------|----------------|
-| H1 | Memory (RAM + SSD) share of a typical build cost has grown significantly since 2025 | Build cost index by component |
-| H2 | In Russia the price rise comes with a lag and is amplified or dampened by the RUB exchange rate and parallel imports | Compare USD and RUB indices, adjusted for FX |
-| H3 | Contract DRAM prices (TrendForce) lead retail prices by 1–3 months, so they can be used as a "when to buy" signal | Lag correlation between contract and retail prices |
-| H4 | Budget buyers are pushed back to AM4 + DDR4: at ~90k RUB an AM5 build no longer fits | Fixed-budget view: best build per budget level, by month |
-| H5 | Expensive new hardware increases demand for alternatives: used/refurbished PCs, PC rental, cloud gaming | Market sizing + unit economics of one selected venture |
+| # | Гипотеза | Как проверяли | Результат |
+|---|---|---|---|
+| H1 | Рост цен в рознице вызван именно памятью, а не общей инфляцией | История цен 13 позиций в Регарде за 2024–2026 | Подтверждена: память и SSD ×2–5, видеокарты ×1,5–1,7, блок питания без памяти ×0,9 |
+| H2 | Покупатель уходит на прошлое поколение платформы (даунтрейдинг) | Цены DNS; отчёт Альфа Банка | Подтверждена: за ~90 тыс. ₽ собирают на AM4 и DDR4; Альфа Банк ждёт «снижения характеристик» дешёвых устройств |
+| H3 | Основные деньги осели у производителей памяти | Отчётность SK hynix, TrendForce, Counterpoint | Подтверждена: три компании делят 89% DRAM, маржа SK hynix 76% |
+| H4 | Российский ритейл заработал на дешёвом складе | Отчётность DNS, данные Росстата через Альфа Банк | Не подтверждена: прибыль DNS −31,5%, запасы ритейлеров на 8% ниже нормы |
+| H5 | Сборщики ПК проигрывают | Стоимость сборки в DNS (~5 000 ₽) против цены ПК | Подтверждена логикой: плата за работу фиксирована и не растёт с ценой железа (~6% от ПК за 84 тыс. ₽) |
+| H6 | Контрактные цены опережают розничные | TrendForce и история цен | Частично: направление совпадает, лаг в месяцах ещё не посчитан |
 
-## 3. Scope
+## Что входит в проект
 
-**In scope**
-- Fixed basket: 3 AM5 builds (budget / mid / high-end)
-- Fixed budget: best build for 90k / 150k / 250k RUB, starting from the AM4 build
-- All builds: `data/reference/builds.csv`
-- Two markets: Russia (RUB) and global (USD)
-- Period: January 2024 to today, monthly granularity
-- One business case (new venture) with market sizing and unit economics
+- Бюджетная игровая сборка на AM4 (DNS, сентябрь 2026) и 13 позиций с историей цен (Регард, 2024–2026)
+- Мировой рынок памяти: контрактные цены, производители, дата-центры
+- Российский рынок техники: каналы продаж, ритейл, сборщики, компьютерные клубы
+- Рекомендации для ритейла и сборщиков ПК
 
-**Out of scope**
-- Laptops and consoles
-- Daily price forecasting / ML models
-- Peripherals (monitors, keyboards, etc.)
+Не входит: ноутбуки и консоли, прогноз цен моделью, маркетплейсы и Авито (слишком шумные данные).
 
-## 4. Deliverables
+## Результаты
 
-1. **Dataset**: cleaned monthly component prices for both markets (`data/processed/`)
-2. **Dashboard**: Power BI / Tableau, build cost index, component shares, RUB vs USD
-3. **Strategy deck**: 10–12 slides, market analysis, conclusions, business case, recommendation
-4. **README**: one-page summary with key findings and screenshots
+1. **Презентация** на 12 слайдов: рынок, цены, цепочка стоимости, Россия, рекомендации
+2. **Данные** в `data/raw/`: цены DNS, Регарда и история из архива
+3. **Код** в `src/`: сбор цен с сайтов и из Wayback Machine
 
-## 5. Roadmap
+## Рекомендации
 
-| Week | Milestone | Output |
-|------|-----------|--------|
-| 1 | Framing & data sourcing | Brief, reference builds, list of data sources |
-| 2 | Data collection & cleaning | Monthly price dataset, both markets |
-| 3 | Analysis (H1–H4) | Build cost index, lag analysis, notebook |
-| 4 | Business case (H5) | Market sizing, unit economics model |
-| 5 | Packaging | Dashboard, deck, final README |
+1. Закупать память по сигналу контрактных цен: замедление роста — сигнал сокращать закупки.
+2. Не держать склад памяти на пике цикла: короткие закупки под заказ.
+3. Удержать покупателя дешёвой линейкой: AM4 и DDR4, б/у видеокарты с гарантией, апгрейд вместо нового ПК.
 
-## 6. Risks
+**Риск:** если индустрия права насчёт «суперцикла», цены останутся высокими дольше. Тогда главным становится третий пункт.
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| No clean historical retail prices for Russia | High | Combine price-archive sites, Wayback Machine snapshots, own collection going forward |
-| Specific SKUs disappear from sale | Medium | Track component class (e.g. "32 GB DDR5-6000 kit"), not one SKU |
-| Business case relies on assumptions | Medium | State all assumptions explicitly, run sensitivity analysis |
+## Следующие шаги
+
+- Посчитать лаг между контрактными и розничными ценами на собранной истории
+- Проверить гипотезу H4 по отчётности DNS за 2026 год
+- Добавить маркетплейсы в сбор цен, когда появится способ получать чистые данные
