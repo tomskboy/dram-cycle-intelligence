@@ -9,6 +9,7 @@ Usage:
 """
 
 import csv
+import gzip
 import json
 import re
 import time
@@ -46,15 +47,21 @@ TRACKED = [
 ]
 
 
-def get(url, tries=5):
+def get(url, tries=6):
+    """The archive is slow and often drops connections or answers 5xx, so retry
+    with growing pauses. Some snapshots are stored gzip-compressed and come back
+    as raw gzip bytes, so decompress those."""
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "price-history-research"})
-            return urllib.request.urlopen(req, timeout=90).read().decode("utf-8", "replace")
+            body = urllib.request.urlopen(req, timeout=120).read()
+            if body[:2] == b"\x1f\x8b":
+                body = gzip.decompress(body)
+            return body.decode("utf-8", "replace")
         except Exception:
             if i == tries - 1:
                 raise
-            time.sleep(4 * (i + 1))
+            time.sleep(8 * (i + 1))
 
 
 def snapshots(product_id):
@@ -62,8 +69,12 @@ def snapshots(product_id):
     url = ("https://web.archive.org/cdx/search/cdx?url=www.regard.ru/product/"
            f"{product_id}/*&output=json&fl=timestamp,original&filter=statuscode:200"
            "&collapse=timestamp:6")
-    rows = json.loads(get(url) or "[]")
-    return rows[1:]
+    for i in range(4):  # a 504 page instead of JSON means the index is overloaded
+        try:
+            return json.loads(get(url) or "[]")[1:]
+        except json.JSONDecodeError:
+            time.sleep(15 * (i + 1))
+    raise RuntimeError("archive index unavailable")
 
 
 def price_from_snapshot(timestamp, original, product_id):
