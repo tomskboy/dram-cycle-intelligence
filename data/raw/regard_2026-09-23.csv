@@ -1,0 +1,10 @@
+date,market,retailer,build,component,sku,unit_price,qty,price,currency,candidates
+2026-09-23,RU,Regard,budget_am4,cpu,AMD Ryzen 5 5600 OEM,11550,1,11550,RUB,1
+2026-09-23,RU,Regard,budget_am4,gpu,NVIDIA GeForce RTX 5050 AFOX 8GB (AF5050-8GD6H7-V2),44480,1,44480,RUB,8
+2026-09-23,RU,Regard,budget_am4,ram_kit,16GB DDR4 3200MHz Netac Shadow S White (NTSSD4P32DP-16W) (2x8GB KIT),12990,1,12990,RUB,19
+2026-09-23,RU,Regard,budget_am4,ram_single,8GB DDR4 3200MHz ExeGate Value (EX293813RUS),5940,2,11880,RUB,41
+2026-09-23,RU,Regard,budget_am4,ssd,1TB Indilinx (IND-S325S001TX),11950,1,11950,RUB,34
+2026-09-23,RU,Regard,budget_am4,motherboard,Biostar A520MHP 2.0,5280,1,5280,RUB,18
+2026-09-23,RU,Regard,budget_am4,cooler,ID-COOLING SE-902-SD V3,1030,1,1030,RUB,1
+2026-09-23,RU,Regard,budget_am4,psu,500W Formula FV-500WD,2800,1,2800,RUB,10
+2026-09-23,RU,Regard,budget_am4,case,ExeGate BAA-503 Black,1290,1,1290,RUB,72

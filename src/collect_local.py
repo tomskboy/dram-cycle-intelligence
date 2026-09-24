@@ -1,0 +1,234 @@
+"""Collect current prices from DNS, Ozon, Wildberries, Yandex Market and Avito.
+
+These sites block non-Russian and datacenter IPs, so this script is meant to be
+run on your own machine. It opens a real Chrome window with a saved profile:
+the first time, pick your city on DNS and solve any captcha by hand, the
+profile remembers it for next runs.
+
+Setup (once):
+    pip install playwright
+    playwright install chromium
+
+Run:
+    python src/collect_local.py                      # all sites
+    python src/collect_local.py --sites dns avito    # only some
+    python src/collect_local.py --debug              # save screenshots when nothing is found
+
+Output: data/raw/local_<date>.csv with the cheapest matching listings per
+site and component, plus a build total per site printed at the end.
+"""
+
+import argparse
+import csv
+import re
+import time
+import urllib.parse
+from datetime import date
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+from components import CLASSES, NOT_A_PART, USED_EXCLUDE
+
+ROOT = Path(__file__).resolve().parents[1]
+PROFILE_DIR = ROOT / ".browser-profile"
+DEBUG_DIR = ROOT / "data" / "raw" / "debug"
+KEEP_PER_COMPONENT = 10
+
+# search url (sorted cheapest first where the site supports it) and the
+# pattern of a product link, used to find product cards on the page
+SITES = {
+    "dns": {
+        "name": "DNS",
+        "url": "https://www.dns-shop.ru/search/?q={q}",
+        "link": r"dns-shop\.ru/product/[0-9a-f]+/",
+        "condition": "new",
+        "scrolls": 2,  # search is not sorted by price
+    },
+    "ozon": {
+        "name": "Ozon",
+        "url": "https://www.ozon.ru/search/?text={q}&sorting=price",
+        "link": r"ozon\.ru/product/",
+        "condition": "new",
+        "scrolls": 0,
+    },
+    "wb": {
+        "name": "Wildberries",
+        "url": "https://www.wildberries.ru/catalog/0/search.aspx?search={q}&sort=priceup",
+        "link": r"wildberries\.ru/catalog/\d+/detail\.aspx",
+        "condition": "new",
+        "scrolls": 0,
+    },
+    "ym": {
+        "name": "Yandex Market",
+        "url": "https://market.yandex.ru/search?text={q}&how=aprice",
+        "link": r"market\.yandex\.ru/(product--|card/)",
+        "condition": "new",
+        "scrolls": 0,
+    },
+    "avito": {
+        "name": "Avito",
+        "url": "https://www.avito.ru/rossiya?q={q}&s=1",
+        "link": r"avito\.ru/[^?#]+_\d{6,}",
+        "condition": "used",
+        "scrolls": 0,
+    },
+}
+
+# Runs in the page. Finds product links, climbs up to the smallest element
+# that also contains a price, and returns title + prices from that card.
+# Does not depend on CSS class names, which these sites change often.
+EXTRACT_JS = r"""
+(linkPattern) => {
+  const re = new RegExp(linkPattern);
+  const norm = (h) => h.split('?')[0].split('#')[0];
+  // thousands are grouped by spaces on the same line only; with \s a spec value
+  // on the line above ("4") stuck to the price ("5 299 ₽" -> 45299)
+  const priceRe = /(?<![\d.,])(\d{1,3}(?:[    ]\d{3})*|\d{4,7})[    ]*₽(?![    ]*\/[    ]*мес)/g;
+  const seen = new Set();
+  const out = [];
+  for (const a of document.querySelectorAll('a[href]')) {
+    if (!re.test(a.href)) continue;
+    const key = norm(a.href);
+    if (seen.has(key)) continue;
+    let el = a, card = null;
+    for (let i = 0; i < 10 && el; i++, el = el.parentElement) {
+      if (/\d\s*₽/.test(el.innerText || '')) { card = el; break; }
+    }
+    if (!card) continue;
+    const links = [...card.querySelectorAll('a[href]')].filter(x => re.test(x.href));
+    if (new Set(links.map(x => norm(x.href))).size > 1) continue;  // card spans several products
+    seen.add(key);
+    const text = card.innerText || '';
+    const prices = [...text.matchAll(priceRe)]
+      .map(m => parseInt(m[1].replace(/[    ]/g, ''), 10))
+      .filter(x => x >= 100);
+    let title = links.map(x => (x.innerText || x.getAttribute('title') || '').trim())
+      .sort((x, y) => y.length - x.length)[0] || '';
+    if (title.length < 10) {
+      const named = card.querySelector('[itemprop=name], [title]');
+      title = (named && (named.innerText || named.getAttribute('title')) || text.split('\n')[0]).trim();
+    }
+    out.push({url: key, title: title.replace(/\s+/g, ' '), text: text.replace(/\s+/g, ' ').slice(0, 600), prices});
+  }
+  return out;
+}
+"""
+
+
+def matches(title, rule, condition, text=""):
+    """Include rules look at the title and the spec line under it (DNS keeps
+    DDR type and frequency there, not in the title). Exclude rules look at the
+    title only, because specs are full of words like "радиатор: нет"."""
+    t = title.lower()
+    full = f"{t} | {text.lower()}"
+    if not all(re.search(p, full) for p in rule["include"]):
+        return False
+    excludes = [NOT_A_PART] + rule["exclude"] + ([USED_EXCLUDE] if condition == "used" else [])
+    if any(re.search(p, t) for p in excludes):
+        return False
+    return not any(re.search(p, full) for p in rule.get("exclude_text", []))
+
+
+def wait_for_cards(page, link, timeout_ms=12000, poll_ms=400):
+    """Return as soon as product cards with prices are on the page and their
+    number stopped growing (DNS fills in prices a moment after the cards)."""
+    cards, stable = [], 0
+    for _ in range(timeout_ms // poll_ms):
+        page.wait_for_timeout(poll_ms)
+        now = page.evaluate(EXTRACT_JS, link)
+        stable = stable + 1 if now and len(now) == len(cards) else 0
+        cards = now
+        if stable >= 2:
+            break
+    return cards
+
+
+def load_results(page, site, query, debug_name):
+    url = site["url"].format(q=urllib.parse.quote(query))
+    page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    cards = wait_for_cards(page, site["link"])
+    if not cards:
+        print("    no products on the page. If you see a captcha or a city prompt "
+              "in the browser, deal with it there, then press Enter here.")
+        input()
+        cards = wait_for_cards(page, site["link"])
+    # sites sorted by price show the cheapest on the first screen already
+    for _ in range(site["scrolls"]):
+        page.mouse.wheel(0, 2500)
+        cards = wait_for_cards(page, site["link"], timeout_ms=3000)
+    if not cards and debug_name:
+        DEBUG_DIR.mkdir(parents=True, exist_ok=True)
+        page.screenshot(path=str(DEBUG_DIR / f"{debug_name}.png"), full_page=True)
+        (DEBUG_DIR / f"{debug_name}.html").write_text(page.content(), encoding="utf-8")
+    return cards
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--sites", nargs="+", choices=list(SITES), default=list(SITES))
+    ap.add_argument("--build", default="budget_am4", choices=list(CLASSES))
+    ap.add_argument("--debug", action="store_true")
+    args = ap.parse_args()
+
+    today = date.today().isoformat()
+    rows = []
+    with sync_playwright() as p:
+        ctx = p.chromium.launch_persistent_context(
+            str(PROFILE_DIR), headless=False, locale="ru-RU",
+            viewport={"width": 1400, "height": 900},
+            args=["--disable-blink-features=AutomationControlled"],
+        )
+        page = ctx.pages[0] if ctx.pages else ctx.new_page()
+        for key in args.sites:
+            site = SITES[key]
+            print(f"\n== {site['name']}")
+            for comp, rule in CLASSES[args.build].items():
+                debug_name = f"{today}_{key}_{comp}" if args.debug else None
+                try:
+                    cards = load_results(page, site, rule["query"], debug_name)
+                except Exception as e:  # one broken page should not stop the run
+                    print(f"  {comp}: error {e}")
+                    continue
+                found = []
+                for c in cards:
+                    if not c["prices"] or not matches(c["title"], rule, site["condition"], c.get("text", "")):
+                        continue
+                    price = min(c["prices"])
+                    if price >= rule["min_price"]:
+                        found.append((price, c["title"], c["url"]))
+                found.sort()
+                for rank, (price, title, url) in enumerate(found[:KEEP_PER_COMPONENT], 1):
+                    rows.append({
+                        "date": today, "market": "RU", "retailer": site["name"],
+                        "condition": site["condition"], "build": args.build,
+                        "component": comp, "rank": rank, "title": title,
+                        "price": price, "currency": "RUB", "url": url,
+                    })
+                best = f"{found[0][0]} ₽  {found[0][1][:70]}" if found else "nothing matched"
+                print(f"  {comp}: {best}  ({len(cards)} cards, {len(found)} matched)")
+                time.sleep(1)
+        ctx.close()
+
+    if not rows:
+        print("\nNothing collected.")
+        return
+    out = ROOT / "data" / "raw" / f"local_{today}.csv"
+    with open(out, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+
+    print("\nBuild total, cheapest per component:")
+    comps = list(CLASSES[args.build])
+    for key in args.sites:
+        name = SITES[key]["name"]
+        best = {r["component"]: r["price"] for r in rows if r["retailer"] == name and r["rank"] == 1}
+        missing = [c for c in comps if c not in best]
+        note = f"  (missing: {', '.join(missing)})" if missing else ""
+        print(f"  {name}: {sum(best.values()):,} ₽{note}".replace(",", " "))
+    print(f"\nsaved {out}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,33 @@
+build,component,spec,example_sku
+budget_am4,cpu,6-core AM4,AMD Ryzen 5 5600
+budget_am4,gpu,8 GB entry GPU,NVIDIA GeForce RTX 5050
+budget_am4,ram,16 GB DDR4-3200 (2x8),2x Colorful BATTLE-AX 8GB DDR4-3200 CL16
+budget_am4,ssd,1 TB SATA or budget NVMe,DEXP C100 1TB
+budget_am4,motherboard,A520 mATX,MSI A520M-A PRO
+budget_am4,cooler,"tower cooler 92 mm, 2 heatpipes",ID-COOLING SE-902-SD V3
+budget_am4,psu,400-450 W,Deepcool PF450
+budget_am4,case,any mATX case,Deepcool CC360
+budget,cpu,6-core AM5,AMD Ryzen 5 7500F
+budget,gpu,8 GB entry GPU,NVIDIA GeForce RTX 5060
+budget,ram,16 GB DDR5-6000 (2x8),Kingston FURY Beast 16GB DDR5-6000
+budget,ssd,1 TB NVMe PCIe 4.0,Kingston NV3 1TB
+budget,motherboard,B650 mATX,MSI PRO B650M-P
+budget,cooler,"tower cooler 92 mm, 2 heatpipes",ID-COOLING SE-902-SD V3
+budget,psu,550-650 W 80+ Bronze,Deepcool PK650D
+budget,case,mATX airflow case,Deepcool CC360
+mid,cpu,6-core AM5 Zen 5,AMD Ryzen 5 9600X
+mid,gpu,12 GB mid-range GPU,NVIDIA GeForce RTX 5070
+mid,ram,32 GB DDR5-6000 (2x16),Kingston FURY Beast 32GB DDR5-6000
+mid,ssd,2 TB NVMe PCIe 4.0,Samsung 990 EVO Plus 2TB
+mid,motherboard,B650 ATX,MSI B650 GAMING PLUS WIFI
+mid,cooler,"tower cooler 120 mm, 4 heatpipes",ID-COOLING SE-224-XTS
+mid,psu,750 W 80+ Gold,Deepcool PN750M
+mid,case,ATX airflow case,Deepcool CH560
+high,cpu,8-core AM5 X3D,AMD Ryzen 7 9800X3D
+high,gpu,16 GB high-end GPU,NVIDIA GeForce RTX 5080
+high,ram,32 GB DDR5-6000 CL30 (2x16),G.Skill Trident Z5 Neo 32GB DDR5-6000 CL30
+high,ssd,2 TB NVMe PCIe 4.0 high-end,Samsung 990 PRO 2TB
+high,motherboard,X870 ATX,MSI MAG X870 TOMAHAWK WIFI
+high,cooler,dual tower cooler 120 mm,Thermalright Peerless Assassin 120 SE
+high,psu,850 W 80+ Gold,Corsair RM850e
+high,case,ATX airflow case,Lian Li LANCOOL 216
