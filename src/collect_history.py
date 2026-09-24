@@ -34,6 +34,15 @@ TRACKED = [
     (9720, "gpu", "Palit Dual RTX 4060 8GB"),
     (746540, "gpu", "MSI Ventus 2X OC RTX 5050 8GB"),
     (421781, "psu", "DeepCool PF500"),
+    # mid and high-end builds
+    (733488, "gpu", "ASUS PRIME OC RTX 5070 12GB"),
+    (500502, "gpu", "Palit Dual OC RTX 5060 8GB"),
+    (725824, "gpu", "Gigabyte AORUS MASTER OC RTX 5080 16GB"),
+    (703286, "cpu", "AMD Ryzen 5 9600X OEM"),
+    (718588, "cpu", "AMD Ryzen 7 9800X3D OEM"),
+    (468783, "ram_ddr5", "Kingston Fury Beast RGB 16GB (2x8) DDR5-6000"),
+    (687649, "ram_ddr5", "Kingston Fury Beast Black RGB 32GB (2x16) DDR5-6000 CL30"),
+    (682522, "ram_ddr5", "Kingston Fury Beast 32GB (2x16) DDR5-6000 CL30"),
 ]
 
 
