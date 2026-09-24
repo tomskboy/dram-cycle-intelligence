@@ -1,110 +1,91 @@
-# Gaming PC Cost Index
+# Цикл памяти: кто заработал на ИИ-буме, а кто за него заплатил
 
-How much more does a gaming PC cost because of the AI memory boom, and who can make money on it?
+Как рост цен на DRAM из-за ИИ-дата-центров изменил стоимость игрового ПК в России и что из этого следует для ритейла и сборщиков ПК.
 
-**Status:** in progress (week 1 of 5, framing and data sourcing). Findings below will be filled in as the analysis is done.
-
-**Tools:** Python (pandas) · Excel · Power BI
+**Статус:** основной анализ готов, история цен дособирается.
+**Инструменты:** Python (pandas, Playwright), Excel, открытые отчёты компаний.
 
 ---
 
-## Business problem
+## Главное
 
-Since late 2025 memory makers have been moving production capacity to HBM and server DRAM for AI data centers. Consumer RAM and SSDs got scarce and expensive, and it shows up in the final price of a gaming PC.
+| | |
+|---|---|
+| **×4,4** | комплект 16 ГБ DDR4-3200 в Регарде: 5 270 ₽ (08.2025) → 23 190 ₽ (09.2026) |
+| **84 294 ₽** | бюджетный игровой ПК в DNS сегодня; 28% цены — память и SSD, 47% — видеокарта |
+| **+93–98%** | рост контрактных цен на DRAM за I кв. 2026 (TrendForce); во II кв. +58–63%, в III кв. прогноз +13–18% |
+| **76%** | операционная маржа SK hynix во II кв. 2026 |
 
-This project tracks the cost of four typical gaming builds from January 2024 to today in two markets, Russia (RUB) and global (USD), and answers five questions:
+**Вывод.** Деньги ИИ-бума осели у производителей памяти и поставщиков дата-центров. Платят геймеры и сборщики ПК: сборщик берёт фиксированную плату за работу, а чек и замороженные в закупке деньги растут. Рост контрактных цен замедляется, цикл разворачивается. Ритейлу и сборщикам нельзя входить в спад с дорогим складом памяти.
 
-1. How much did each build get more expensive, and which components drove it?
-2. Are buyers pushed back to the previous platform (AM4 + DDR4) to stay within budget?
-3. Does the Russian market follow the global one, and what role do the ruble and parallel imports play?
-4. Can contract DRAM prices tell you in advance when retail prices will move?
-5. What business opportunity does expensive hardware open up, and does its unit economics work?
+## Вопросы исследования
 
-## Executive summary
+1. Насколько подорожал игровой ПК и какие комплектующие дали рост?
+2. Уходит ли покупатель на прошлую платформу (AM4 + DDR4), чтобы уложиться в бюджет?
+3. Кто в цепочке стоимости заработал на подорожании памяти, а кто проиграл?
+4. Опережают ли контрактные цены розничные и можно ли по ним планировать закупки?
 
-_To be written after the analysis (week 3–4). Planned format: 3–4 key numbers, one chart, one recommendation._
+## Что подорожало (одни и те же товары в Регарде)
 
-| Metric | Budget AM4 | Budget AM5 | Mid | High-end |
-|---|---|---|---|---|
-| Build cost, Jan 2024 | – | – | – | – |
-| Build cost, latest | – | – | – | – |
-| Change, % | – | – | – | – |
-| Memory share of cost (RAM + SSD) | – | – | – | – |
+| Позиция | Было | Сейчас | Рост |
+|---|---|---|---|
+| 8 ГБ DDR4-3200, Kingston ValueRAM | 2 050 ₽ (05.2025) | 10 490 ₽ | ×5,1 |
+| 16 ГБ DDR4-3200, Kingston Fury (2×8) | 5 270 ₽ (08.2025) | 23 190 ₽ | ×4,4 |
+| SSD 1 ТБ NVMe, Samsung 980 | 10 130 ₽ (08.2025) | 27 990 ₽ | ×2,8 |
+| SSD 1 ТБ SATA, Crucial BX500 | 6 410 ₽ (08.2025) | 13 750 ₽ | ×2,1 |
+| Процессор Ryzen 5 5600 | 8 720 ₽ (05.2025) | 11 550 ₽ | ×1,3 |
+| Материнская плата MSI A520M-A PRO | 4 870 ₽ (08.2025) | 5 710 ₽ | ×1,2 |
 
-## Reference builds
+Память и SSD подорожали в 2–5 раз, остальные комплектующие — на 20–30%.
 
-Two ways to look at the same market:
+## Кто выиграл, кто проиграл
 
-- **Fixed basket.** Three builds on the current platform (AM5 + DDR5). Same parts every month, so the index shows pure price change.
-- **Fixed budget.** What you can actually build for 90k / 150k / 250k RUB in a given month. Right now 90k gets you AM4 with DDR4. If the data confirms that a year ago the same money bought AM5, that downgrade is a finding in itself.
-
-Prices are tracked per component class, not a single SKU, so the series survives when a model goes out of stock. Full list: [`data/reference/builds.csv`](data/reference/builds.csv).
-
-| Component | Budget AM4 (~90k RUB) | Budget AM5 (1080p) | Mid (1440p) | High-end (4K) |
-|---|---|---|---|---|
-| CPU | Ryzen 5 5600 | Ryzen 5 7500F | Ryzen 5 9600X | Ryzen 7 9800X3D |
-| GPU | RTX 5050 8 GB | RTX 5060 8 GB | RTX 5070 12 GB | RTX 5080 16 GB |
-| RAM | 16 GB DDR4-3200 | 16 GB DDR5-6000 | 32 GB DDR5-6000 | 32 GB DDR5-6000 CL30 |
-| SSD | 1 TB SATA / budget NVMe | 1 TB NVMe Gen4 | 2 TB NVMe Gen4 | 2 TB NVMe Gen4 (high-end) |
-| Motherboard | A520 mATX | B650 mATX | B650 ATX | X870 ATX |
-| Cooler | 92 mm tower | 92 mm tower | 120 mm tower | 120 mm dual tower |
-| PSU | 400–450 W | 650 W Bronze | 750 W Gold | 850 W Gold |
-| Case | any mATX | mATX airflow | ATX airflow | ATX airflow |
-
-## Data
-
-| Source | What | Market |
+| Звено | Итог | Данные |
 |---|---|---|
-| Regard (`src/collect_regard.py`) | Current prices, cheapest in-stock per component class | RU |
-| DNS, Ozon, Wildberries, Yandex Market, Avito | Current prices incl. marketplaces and used market | RU |
-| Retail price archives | Historical monthly component prices | RU, global |
-| TrendForce / DRAMeXchange | Contract and spot DRAM prices | global |
-| Central Bank of Russia | USD/RUB exchange rate | RU |
-| Samsung, SK hynix, Micron reports | Capacity, capex, HBM share | global |
+| Производители памяти | выиграли | SK hynix: маржа 76%, операционная прибыль ×6,6 за год; выручка отрасли DRAM за I кв. 2026 — 97 млрд $ (+81% за квартал) |
+| Дата-центры и их поставщики | выиграли | капзатраты Google, Microsoft, Meta и Amazon на 2026 — 725 млрд $ (+77%) |
+| Ритейл (DNS) | спорно | 2025: выручка 781 млрд ₽ (+2,8%), прибыль −31,5%; эффект склада проверим по отчёту за 2026 |
+| Сборщики ПК | проиграли | фиксированная плата за работу при растущем чеке и меньшем числе заказов |
+| Геймеры | проиграли | та же память и SSD стоят в 2–5 раз дороже |
 
-DNS, the marketplaces and Avito block requests from non-Russian IPs, so they are collected from a local machine. The detailed list with links and collection method will be in `docs/data_sources.md`.
-
-## Approach
-
-1. Collect monthly prices for every component class in both markets.
-2. Build a cost index for each build (Jan 2024 = 100) and break the change down by component.
-3. For each budget level, find the best build that fits and track when it drops to an older platform.
-4. Compare RUB and USD indices with and without the exchange rate effect.
-5. Check the lag between contract DRAM prices and retail RAM prices.
-6. Pick one business opportunity, size the market and model unit economics with a sensitivity analysis.
-
-More detail: [project brief](docs/project_brief.md).
-
-## Collecting prices
+## Данные и как их собрать
 
 ```
 pip install -r requirements.txt
 playwright install chromium
 
-python src/collect_regard.py    # Regard, works from anywhere
-python src/collect_local.py     # DNS, Ozon, WB, Yandex Market, Avito; run from a Russian IP
+python src/collect_regard.py    # текущие цены Регарда
+python src/collect_history.py   # история цен Регарда из Wayback Machine
+python src/collect_local.py --sites dns   # текущие цены DNS, запускать с российского IP
 ```
 
-`collect_local.py` opens a real browser window. On the first run pick your city on DNS and solve captchas by hand; the browser profile is saved for next runs. Search rules for each component live in [`src/components.py`](src/components.py).
+`collect_local.py` открывает настоящий браузер: при первом запуске выберите город в DNS и при необходимости пройдите капчу. Правила подбора комплектующих лежат в [`src/components.py`](src/components.py), типовые сборки — в [`data/reference/builds.csv`](data/reference/builds.csv).
 
-## Repository structure
+## Структура
 
 ```
-data/raw/          source data as collected
-data/processed/    cleaned monthly datasets
-data/reference/    reference builds
-docs/              brief, data sources, methodology
-notebooks/         analysis
-src/               collection and cleaning scripts
-reports/           dashboard and deck
+data/raw/          собранные цены (DNS, Регард, история из архива)
+data/reference/    типовые сборки
+docs/              бриф проекта
+src/               сбор и обработка данных
+reports/           презентация и выгрузки
 ```
 
-## Limitations
+## Источники
 
-- Historical retail prices for Russia are patchy, so some months are reconstructed from archive snapshots.
-- A fixed set of builds does not reflect how people actually change their purchases when prices go up.
-- The business case is based on stated assumptions, not company data.
+- TrendForce, пресс-релизы о контрактных ценах: [05.01.2026](https://www.trendforce.com/presscenter/news/20260105-12860.html), [31.03.2026](https://www.trendforce.com/presscenter/news/20260331-12995.html), [01.06.2026](https://www.trendforce.com/presscenter/news/20260601-13070.html), [03.07.2026](https://www.trendforce.com/presscenter/news/20260703-13134.html)
+- [SK hynix, результаты за II кв. 2026](https://news.skhynix.com/en/q2-2026-business-results/)
+- [Tom's Hardware: капзатраты облачных компаний в 2026](https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion)
+- [Отчётность ООО «ДНС Ритейл» за 2025 (Финмаркет)](https://lenta.profinansy.ru/news/7051221)
+- [АРКИ: рынок компьютерных клубов, IV кв. 2025 (CNews)](https://www.cnews.ru/news/line/2026-01-30_rynok_kompyuternyh_klubov)
 
-## Author
+## Ограничения
 
-[tomskboy](https://github.com/tomskboy). Feedback and questions are welcome in Issues.
+- Архив сохраняет не каждый месяц, поэтому в истории цен есть пропуски.
+- Учтены DNS и Регард; маркетплейсы и Авито не учтены (результаты там слишком шумные).
+- Лаг между контрактными и розничными ценами ещё не посчитан.
+- Экономика сборщиков — оценка: открытой отчётности у них нет.
+
+## Автор
+
+[tomskboy](https://github.com/tomskboy). Вопросы и замечания — в Issues.
