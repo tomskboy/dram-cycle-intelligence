@@ -24,3 +24,4 @@ month,snapshot,product_id,component,sku,price,in_stock,currency
 2025-11,20251117101549,699695,ssd_nvme,Kingston NV3 1TB,7000,True,RUB
 2025-11,20251117100805,699695,ssd_nvme,Kingston NV3 1TB,7000,True,RUB
 2026-06,20260614230543,699695,ssd_nvme,Kingston NV3 1TB,13490,True,RUB
+2025-12,20251206100919,10398,gpu,ASUS Dual RTX 3050 8GB,22930,True,RUB
