@@ -82,6 +82,8 @@ reports/           презентация и выгрузки
 - [Tom's Hardware: капзатраты облачных компаний в 2026](https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion)
 - [Отчётность ООО «ДНС Ритейл» за 2025 (Финмаркет)](https://lenta.profinansy.ru/news/7051221)
 - [АРКИ: рынок компьютерных клубов, IV кв. 2025 (CNews)](https://www.cnews.ru/news/line/2026-01-30_rynok_kompyuternyh_klubov)
+- KPMG и GSA, Global Semiconductor Industry Outlook 2026: опрос 151 руководителя индустрии, IV кв. 2025
+- Newzoo, PC & Console Gaming Report 2026
 
 ## Ограничения
 
