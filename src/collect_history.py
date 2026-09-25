@@ -9,6 +9,7 @@ Usage:
 """
 
 import csv
+import gzip
 import json
 import re
 import time
@@ -34,18 +35,33 @@ TRACKED = [
     (9720, "gpu", "Palit Dual RTX 4060 8GB"),
     (746540, "gpu", "MSI Ventus 2X OC RTX 5050 8GB"),
     (421781, "psu", "DeepCool PF500"),
+    # mid and high-end builds
+    (733488, "gpu", "ASUS PRIME OC RTX 5070 12GB"),
+    (500502, "gpu", "Palit Dual OC RTX 5060 8GB"),
+    (725824, "gpu", "Gigabyte AORUS MASTER OC RTX 5080 16GB"),
+    (703286, "cpu", "AMD Ryzen 5 9600X OEM"),
+    (718588, "cpu", "AMD Ryzen 7 9800X3D OEM"),
+    (468783, "ram_ddr5", "Kingston Fury Beast RGB 16GB (2x8) DDR5-6000"),
+    (687649, "ram_ddr5", "Kingston Fury Beast Black RGB 32GB (2x16) DDR5-6000 CL30"),
+    (682522, "ram_ddr5", "Kingston Fury Beast 32GB (2x16) DDR5-6000 CL30"),
 ]
 
 
-def get(url, tries=5):
+def get(url, tries=6):
+    """The archive is slow and often drops connections or answers 5xx, so retry
+    with growing pauses. Some snapshots are stored gzip-compressed and come back
+    as raw gzip bytes, so decompress those."""
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "price-history-research"})
-            return urllib.request.urlopen(req, timeout=90).read().decode("utf-8", "replace")
+            body = urllib.request.urlopen(req, timeout=120).read()
+            if body[:2] == b"\x1f\x8b":
+                body = gzip.decompress(body)
+            return body.decode("utf-8", "replace")
         except Exception:
             if i == tries - 1:
                 raise
-            time.sleep(4 * (i + 1))
+            time.sleep(8 * (i + 1))
 
 
 def snapshots(product_id):
@@ -53,8 +69,12 @@ def snapshots(product_id):
     url = ("https://web.archive.org/cdx/search/cdx?url=www.regard.ru/product/"
            f"{product_id}/*&output=json&fl=timestamp,original&filter=statuscode:200"
            "&collapse=timestamp:6")
-    rows = json.loads(get(url) or "[]")
-    return rows[1:]
+    for i in range(4):  # a 504 page instead of JSON means the index is overloaded
+        try:
+            return json.loads(get(url) or "[]")[1:]
+        except json.JSONDecodeError:
+            time.sleep(15 * (i + 1))
+    raise RuntimeError("archive index unavailable")
 
 
 def price_from_snapshot(timestamp, original, product_id):

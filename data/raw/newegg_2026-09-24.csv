@@ -1,0 +1,33 @@
+date,market,retailer,build,component,sku,price,currency,candidates
+2026-09-24,US,Newegg,budget_am4,cpu,"AMD Ryzen 5 5600 6-Core, 12-Thread Unlocked Desktop Processor with Wraith Stealth Cooler",99.63,USD,7
+2026-09-24,US,Newegg,budget_am4,gpu,GIGABYTE Low Profile GeForce RTX 5050 8GB GDDR6 PCI Express 5.0 x8 Low Profile Graphics Card GV-N5050OC-8GL,309.99,USD,26
+2026-09-24,US,Newegg,budget_am4,ram,Silicon Power 16GB (2 x 8GB) DDR4 3200 (PC4 25600) 288-Pin XPOWER Turbine DDR4 SDRAM Desktop Memory Model SP016GXLZU320BDA,109.79,USD,29
+2026-09-24,US,Newegg,budget_am4,ssd,Western Digital WD Green SN350 NVMe M.2 2280 1TB PCI-Express 3.0 x4 Internal Solid State Drive (SSD) WDS100T3G0C,114.99,USD,18
+2026-09-24,US,Newegg,budget_am4,motherboard,"GIGABYTE A520M S2H mATX AM4 4+3 Phases Digital PWM, GIGABYTE Gaming GbE LAN, NVMe PCIe 3.0 x4 M.2, 3 Display Interfaces, Q-Flash Plus, RGB Fusion 2.0, Motherboard",73.99,USD,41
+2026-09-24,US,Newegg,budget_am4,cooler,Thermaltake UX400 ARGB CPU Cooler; 4xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 240W TDP; Black; CL-P142-AL12SW-A,19.99,USD,78
+2026-09-24,US,Newegg,budget_am4,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),54.99,USD,1
+2026-09-24,US,Newegg,budget_am4,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",31.99,USD,43
+2026-09-24,US,Newegg,budget_am5,cpu,AMD Ryzen 5 7600 - Ryzen 5 7000 Series Zen 4 6-Core 3.8 GHz - Socket AM5 65W - AMD Radeon Graphics Processor - 100-100001015,108.21,USD,4
+2026-09-24,US,Newegg,budget_am5,gpu,"GIGABYTE GeForce RTX 5060 GAMING OC V2 8G Graphics Card, 8GB 128-bit GDDR7, PCIe 5.0 x8, WINDFORCE cooling system, GV-N5060GAMING OCV2-8GD Video Card",459.99,USD,51
+2026-09-24,US,Newegg,budget_am5,ram,Team Group 16GB (2 x 8GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Memory Model FLBD516G6000HC38ADC01,239.99,USD,16
+2026-09-24,US,Newegg,budget_am5,ssd,Micron 1TB NVMe 2400 M.2 TCG-Opal Client SSD Model (MTFDKBA1T0QFM-1BD15ABYYR),120.0,USD,22
+2026-09-24,US,Newegg,budget_am5,motherboard,MSI PRO B650M-B motherboard AMD B650 Socket AM5 micro ATX,95.06,USD,76
+2026-09-24,US,Newegg,budget_am5,cooler,Thermaltake UX400 ARGB CPU Cooler; 4xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 240W TDP; Black; CL-P142-AL12SW-A,19.99,USD,78
+2026-09-24,US,Newegg,budget_am5,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),54.99,USD,1
+2026-09-24,US,Newegg,budget_am5,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",31.99,USD,43
+2026-09-24,US,Newegg,mid,cpu,AMD Ryzen 5 9600X - Ryzen 5 9000 Series Granite Ridge (Zen 5) 6-Core 3.9 GHz Socket AM5 65W AMD Radeon Graphics Processor - 100-000001405,194.99,USD,6
+2026-09-24,US,Newegg,mid,gpu,GIGABYTE Eagle GeForce RTX 5070 12GB GDDR7 PCI Express 5.0 ATX Graphics Card GV-N5070EAGLE OC-12GD,829.99,USD,56
+2026-09-24,US,Newegg,mid,ram,CORSAIR Vengeance RGB 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Custom Lab GBT Wood Desktop Memory Model CMH32GX5M2E6000Z36WGWL,439.99,USD,72
+2026-09-24,US,Newegg,mid,ssd,Micron SSD 2500 PCIe Gen4 NVMe SSD QLC NAND 2TB M.2 MTFDKBA2T0QGN-1BN1AABYYR,169.99,USD,8
+2026-09-24,US,Newegg,mid,motherboard,"ASRock B650 PG LIGHTING AM5 ATX Motherboard, 4 slots DDR5, PCIE 4.0 x16,  3 M.2 slots,  2.5Gb Lan, 7.1 Nahimic Audio , Rear USB3.2 Gen2X2 Type_C ,  14+2+1 Power Phase, AMD CrossFire.",123.62,USD,23
+2026-09-24,US,Newegg,mid,cooler,"JONSBO CR1000E BLACK 120MM Single Tower CPU Cooler , 4 Heatpipes Radiator , RGB, PWM Air Cooler Supports LGA1700,D-TDP:210W, Black",24.99,USD,90
+2026-09-24,US,Newegg,mid,psu,be quiet! Pure Power 13 M 750W ATX 3.1 Power Supply | 80 Plus Gold Efficiency | PCIe 5.1 GPUs | Modular | BP026US,89.9,USD,1
+2026-09-24,US,Newegg,mid,case,DIYPC DIY-V3-ATX Black USB3.0 ATX Mid Tower Computer Case w/ 1 x 120mm Fan x Rear (Pre-Installed),48.99,USD,37
+2026-09-24,US,Newegg,high,cpu,AMD Ryzen 7 9800X3D - Ryzen 7 9000 Series 8-Core Socket AM5 120W AMD Radeon Graphics Processor - 100-000001084 - OEM,409.99,USD,10
+2026-09-24,US,Newegg,high,gpu,MSI INSPIRE GeForce RTX 5080 16GB GDDR7 PCI Express 5.0 Graphics Card RTX 5080 16G INSPIRE 3X OC,1449.99,USD,16
+2026-09-24,US,Newegg,high,ram,CORSAIR Vengeance RGB 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Custom Lab GBT Wood Desktop Memory Model CMH32GX5M2E6000Z36WGWL,439.99,USD,72
+2026-09-24,US,Newegg,high,ssd,"SAMSUNG 990 PRO 2TB, 3-bit MLC V-NAND, M.2 (2280), NVMe 2.0, R/W(Max) 7,450MB/s/6,900MB/s, 1,400K/1,550K IOPS, 1200TBW, 5 Years Warranty",429.5,USD,9
+2026-09-24,US,Newegg,high,motherboard,ASRock X870 Challenger WiFi AM5 AMD X870 ATX Motherboard,169.99,USD,77
+2026-09-24,US,Newegg,high,cooler,"Thermalright Peerless Assassin 120 SE CPU Air Cooler,6 Heat Pipes Aluminium Heatsink Cover, for Intel 1700/115X/1200, AMD AM4/AM5",47.9,USD,11
+2026-09-24,US,Newegg,high,psu,"Segotep 850W Power Supply 2025 PCIe 5.1 & ATX 3.1 Gaming PSU 80 Plus Gold Full Modular Support NVIDIA RTX 20/30/40 Series & AMD GPU, 120mm Silent FDB Fan, 5 Year Warranty",89.99,USD,2
+2026-09-24,US,Newegg,high,case,DIYPC DIY-V3-ATX Black USB3.0 ATX Mid Tower Computer Case w/ 1 x 120mm Fan x Rear (Pre-Installed),48.99,USD,37

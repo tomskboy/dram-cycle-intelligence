@@ -38,6 +38,36 @@ CLASSES = {
         "psu": (["блок питания 450W", "блок питания 500W"], rf"^(450|500)w .*({PSU_BRANDS})", 1),
         "case": (["корпус mATX"], r"^(?!.*\d{3,}w).*", 1),
     },
+    "budget_am5": {
+        "cpu": (["Ryzen 5 7500F"], r"ryzen 5 7500f", 1),
+        "gpu": (["RTX 5060"], r"rtx 5060 (?!ti).*8gb", 1),
+        "ram": (["DDR5 6000 16Gb 2x8 KIT"], r"^16gb ddr5 6000.*2x8gb kit", 1),
+        "ssd": (["SSD 1Tb M.2"], r"^1tb.*внутренний ssd, m\.2", 1),
+        "motherboard": (["материнская плата B650M"], r"matx, сокет am5, чипсет amd b650", 1),
+        "cooler": (["SE-902-SD"], r"se-902-sd", 1),
+        "psu": (["блок питания 650W"], rf"^(600|650)w .*({PSU_BRANDS})", 1),
+        "case": (["корпус mATX"], r"^(?!.*\d{3,}w).*", 1),
+    },
+    "mid": {
+        "cpu": (["Ryzen 5 9600X"], r"ryzen 5 9600x", 1),
+        "gpu": (["RTX 5070"], r"rtx 5070 (?!ti).*12gb", 1),
+        "ram": (["DDR5 6000 32Gb 2x16 KIT"], r"^32gb ddr5 6000.*2x16gb kit", 1),
+        "ssd": (["SSD 2Tb M.2"], r"^2tb.*внутренний ssd, m\.2", 1),
+        "motherboard": (["материнская плата B650"], r"\| atx, сокет am5, чипсет amd b650", 1),
+        "cooler": (["SE-224-XTS"], r"se-224-xts", 1),
+        "psu": (["блок питания 750W"], rf"^750w .*({PSU_BRANDS})", 1),
+        "case": (["корпус ATX"], r"поддержка плат atx.*без бп", 1),
+    },
+    "high": {
+        "cpu": (["Ryzen 7 9800X3D"], r"ryzen 7 9800x3d", 1),
+        "gpu": (["RTX 5080"], r"rtx 5080 (?!super).*16gb", 1),
+        "ram": (["DDR5 6000 32Gb 2x16 KIT CL30"], r"^32gb ddr5 6000.*2x16gb kit.*cl30", 1),
+        "ssd": (["Samsung 990 PRO 2Tb"], r"^2tb samsung 990 pro.*внутренний ssd", 1),
+        "motherboard": (["материнская плата X870"], r"\| atx, сокет am5, чипсет amd x870", 1),
+        "cooler": (["Peerless Assassin 120 SE"], r"peerless assassin 120 se", 1),
+        "psu": (["блок питания 850W"], rf"^850w .*({PSU_BRANDS})", 1),
+        "case": (["корпус ATX"], r"поддержка плат atx.*без бп", 1),
+    },
 }
 
 
