@@ -1,0 +1,4 @@
+date,market,retailer,component,variant,sku,unit_price,qty_for_build,build_cost,currency,note
+2026-09-23,RU,DNS,cooler,,ID-COOLING SE-902-SD V3,850.00,1,850.00,RUB,screenshot from product listing
+2026-09-23,RU,DNS,ssd,,"DEXP C100 1TB (2.5"" SATA)",10999.00,1,10999.00,RUB,screenshot from product listing
+2026-09-23,RU,DNS,ram,,Colorful BATTLE-AX 8GB DDR4-3200 CL16 (BA08G3200D4ZP16B),6499.00,2,12998.00,RUB,"single 8 GB stick, build needs 2 (16 GB = 12998 RUB)"

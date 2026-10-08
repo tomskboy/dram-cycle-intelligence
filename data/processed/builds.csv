@@ -1,0 +1,11 @@
+snapshot_date,market,retailer,build,build_label,currency,total,complete,components_present,components_required,missing_components,memory_ssd_share,gpu_share,ram_choice
+2026-09-23,RU,Regard,budget_am4,Бюджетная AM4,RUB,90260.00,true,8,8,,0.2640,0.4928,single x2
+2026-09-24,RU,DNS,budget_am4,Бюджетная AM4,RUB,84294.00,true,8,8,,0.2799,0.4686,listing x1
+2026-09-24,RU,Regard,budget_am4,Бюджетная AM4,RUB,90260.00,true,8,8,,0.2640,0.4928,single x2
+2026-09-24,RU,Regard,budget_am5,Бюджетная AM5,RUB,132190.00,true,8,8,,0.4006,0.3857,listing x1
+2026-09-24,RU,Regard,mid,Средняя,RUB,206410.00,true,8,8,,0.3807,0.4360,listing x1
+2026-09-24,RU,Regard,high,Топовая,RUB,339300.00,true,8,8,,0.2829,0.4863,listing x1
+2026-09-24,US,Newegg,budget_am4,Бюджетная AM4,USD,815.36,true,8,8,,0.2757,0.3802,listing x1
+2026-09-24,US,Newegg,budget_am5,Бюджетная AM5,USD,1130.22,true,8,8,,0.3185,0.4070,listing x1
+2026-09-24,US,Newegg,mid,Средняя,USD,1922.46,true,8,8,,0.3173,0.4317,listing x1
+2026-09-24,US,Newegg,high,Топовая,USD,3086.34,true,8,8,,0.2817,0.4698,listing x1

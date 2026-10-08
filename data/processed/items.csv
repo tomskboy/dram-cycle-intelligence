@@ -1,0 +1,83 @@
+snapshot_date,market,retailer,build,component,variant,raw_component,sku,product_key,spec_key,part_numbers,unit_price,qty,line_total,currency,selected,meets_spec,selection_note,source_file,source_row
+2026-09-23,RU,Regard,budget_am4,cpu,,cpu,AMD Ryzen 5 5600 OEM,amd ryzen 5 5600 oem,ryzen 5 5600,,11550.00,1,11550.00,RUB,true,,,regard_2026-09-23.csv,2
+2026-09-23,RU,Regard,budget_am4,gpu,,gpu,NVIDIA GeForce RTX 5050 AFOX 8GB (AF5050-8GD6H7-V2),,rtx 5050,AF5050-8GD6H7-V2,44480.00,1,44480.00,RUB,true,,,regard_2026-09-23.csv,3
+2026-09-23,RU,Regard,budget_am4,ram,kit,ram_kit,16GB DDR4 3200MHz Netac Shadow S White (NTSSD4P32DP-16W) (2x8GB KIT),,16gb ddr4-3200,NTSSD4P32DP-16W,12990.00,1,12990.00,RUB,false,true,alternative not selected: single is cheaper,regard_2026-09-23.csv,4
+2026-09-23,RU,Regard,budget_am4,ram,single,ram_single,8GB DDR4 3200MHz ExeGate Value (EX293813RUS),,16gb ddr4-3200,EX293813RUS,5940.00,2,11880.00,RUB,true,true,cheapest of 2 alternatives meeting spec (others: kit 12990),regard_2026-09-23.csv,5
+2026-09-23,RU,Regard,budget_am4,ssd,,ssd,1TB Indilinx (IND-S325S001TX),,1tb,IND-S325S001TX,11950.00,1,11950.00,RUB,true,,,regard_2026-09-23.csv,6
+2026-09-23,RU,Regard,budget_am4,motherboard,,motherboard,Biostar A520MHP 2.0,,a520,,5280.00,1,5280.00,RUB,true,,,regard_2026-09-23.csv,7
+2026-09-23,RU,Regard,budget_am4,cooler,,cooler,ID-COOLING SE-902-SD V3,id-cooling se-902-sd v3,cooler,SE-902-SD,1030.00,1,1030.00,RUB,true,,,regard_2026-09-23.csv,8
+2026-09-23,RU,Regard,budget_am4,psu,,psu,500W Formula FV-500WD,,500w,FV-500WD,2800.00,1,2800.00,RUB,true,,,regard_2026-09-23.csv,9
+2026-09-23,RU,Regard,budget_am4,case,,case,ExeGate BAA-503 Black,,case,BAA-503,1290.00,1,1290.00,RUB,true,,,regard_2026-09-23.csv,10
+2026-09-24,RU,DNS,budget_am4,cpu,,cpu,Процессор AMD Ryzen 5 5600 OEM,amd ryzen 5 5600 oem,ryzen 5 5600,,11999.00,1,11999.00,RUB,true,,,dns_build_2026-09-24.csv,2
+2026-09-24,RU,DNS,budget_am4,gpu,,gpu,Видеокарта MSI GeForce RTX 5050 SHADOW 2X OC,,rtx 5050,,39499.00,1,39499.00,RUB,true,,,dns_build_2026-09-24.csv,3
+2026-09-24,RU,DNS,budget_am4,ram,,ram,Оперативная память Digma DGMAD43200016D 16 ГБ,,,DGMAD43200016D,12599.00,1,12599.00,RUB,true,true,,dns_build_2026-09-24.csv,4
+2026-09-24,RU,DNS,budget_am4,ssd,,ssd,"1024 ГБ 2.5"" SATA накопитель DEXP C100",,1tb,,10999.00,1,10999.00,RUB,true,,,dns_build_2026-09-24.csv,5
+2026-09-24,RU,DNS,budget_am4,motherboard,,motherboard,Материнская плата MSI PRO A520M-S,,a520,A520M-S,4599.00,1,4599.00,RUB,true,,,dns_build_2026-09-24.csv,6
+2026-09-24,RU,DNS,budget_am4,cooler,,cooler,Кулер для процессора ID-COOLING SE-902-SD V3,id-cooling se-902-sd v3,cooler,SE-902-SD,850.00,1,850.00,RUB,true,,,dns_build_2026-09-24.csv,7
+2026-09-24,RU,DNS,budget_am4,psu,,psu,Блок питания Formula ECO-500W,,500w,ECO-500W,2299.00,1,2299.00,RUB,true,,,dns_build_2026-09-24.csv,8
+2026-09-24,RU,DNS,budget_am4,case,,case,Корпус ExeGate BAA-109U2,,case,BAA-109U2,1450.00,1,1450.00,RUB,true,,,dns_build_2026-09-24.csv,9
+2026-09-24,RU,Regard,budget_am4,cpu,,cpu,AMD Ryzen 5 5600 OEM,amd ryzen 5 5600 oem,ryzen 5 5600,,11550.00,1,11550.00,RUB,true,,,regard_2026-09-24.csv,2
+2026-09-24,RU,Regard,budget_am4,gpu,,gpu,NVIDIA GeForce RTX 5050 AFOX 8GB (AF5050-8GD6H7-V2),,rtx 5050,AF5050-8GD6H7-V2,44480.00,1,44480.00,RUB,true,,,regard_2026-09-24.csv,3
+2026-09-24,RU,Regard,budget_am4,ram,kit,ram_kit,16GB DDR4 3200MHz Netac Shadow S White (NTSSD4P32DP-16W) (2x8GB KIT),,16gb ddr4-3200,NTSSD4P32DP-16W,12990.00,1,12990.00,RUB,false,true,alternative not selected: single is cheaper,regard_2026-09-24.csv,4
+2026-09-24,RU,Regard,budget_am4,ram,single,ram_single,8GB DDR4 3200MHz ExeGate Value (EX293813RUS),,16gb ddr4-3200,EX293813RUS,5940.00,2,11880.00,RUB,true,true,cheapest of 2 alternatives meeting spec (others: kit 12990),regard_2026-09-24.csv,5
+2026-09-24,RU,Regard,budget_am4,ssd,,ssd,1TB Indilinx (IND-S325S001TX),,1tb,IND-S325S001TX,11950.00,1,11950.00,RUB,true,,,regard_2026-09-24.csv,6
+2026-09-24,RU,Regard,budget_am4,motherboard,,motherboard,Biostar A520MHP 2.0,,a520,,5280.00,1,5280.00,RUB,true,,,regard_2026-09-24.csv,7
+2026-09-24,RU,Regard,budget_am4,cooler,,cooler,ID-COOLING SE-902-SD V3,id-cooling se-902-sd v3,cooler,SE-902-SD,1030.00,1,1030.00,RUB,true,,,regard_2026-09-24.csv,8
+2026-09-24,RU,Regard,budget_am4,psu,,psu,500W Formula FV-500WD,,500w,FV-500WD,2800.00,1,2800.00,RUB,true,,,regard_2026-09-24.csv,9
+2026-09-24,RU,Regard,budget_am4,case,,case,ExeGate BAA-503 Black,,case,BAA-503,1290.00,1,1290.00,RUB,true,,,regard_2026-09-24.csv,10
+2026-09-24,RU,Regard,budget_am5,cpu,,cpu,AMD Ryzen 5 7500F OEM,amd ryzen 5 7500f oem,ryzen 5 7500f,,13300.00,1,13300.00,RUB,true,,,regard_2026-09-24.csv,11
+2026-09-24,RU,Regard,budget_am5,gpu,,gpu,NVIDIA GeForce RTX 5060 Gigabyte WINDFORCE OC 8GB (GV-N5060WF2OC-8GD),,rtx 5060,GV-N5060WF2OC-8GD,50990.00,1,50990.00,RUB,true,,,regard_2026-09-24.csv,12
+2026-09-24,RU,Regard,budget_am5,ram,,ram,16GB DDR5 6000MHz Kingston Fury Beast (KF560C30BBEK2-16) (2x8GB KIT),,16gb ddr5-6000,KF560C30BBEK2-16,35990.00,1,35990.00,RUB,true,true,,regard_2026-09-24.csv,13
+2026-09-24,RU,Regard,budget_am5,ssd,,ssd,1TB MSI SPATIUM M461 (SPATIUM M461 PCIe 4.0 NVMe M.2 1TB),,1tb,,16970.00,1,16970.00,RUB,true,,,regard_2026-09-24.csv,14
+2026-09-24,RU,Regard,budget_am5,motherboard,,motherboard,ASUS PRIME B650M-R,,b650,B650M-R,9620.00,1,9620.00,RUB,true,,,regard_2026-09-24.csv,15
+2026-09-24,RU,Regard,budget_am5,cooler,,cooler,ID-COOLING SE-902-SD V3,id-cooling se-902-sd v3,cooler,SE-902-SD,1030.00,1,1030.00,RUB,true,,,regard_2026-09-24.csv,16
+2026-09-24,RU,Regard,budget_am5,psu,,psu,650W Formula FV-650LT,,650w,FV-650LT,3000.00,1,3000.00,RUB,true,,,regard_2026-09-24.csv,17
+2026-09-24,RU,Regard,budget_am5,case,,case,ExeGate BAA-503 Black,,case,BAA-503,1290.00,1,1290.00,RUB,true,,,regard_2026-09-24.csv,18
+2026-09-24,RU,Regard,mid,cpu,,cpu,AMD Ryzen 5 9600X OEM,amd ryzen 5 9600x oem,ryzen 5 9600x,,18190.00,1,18190.00,RUB,true,,,regard_2026-09-24.csv,19
+2026-09-24,RU,Regard,mid,gpu,,gpu,NVIDIA GeForce RTX 5070 Palit Infinity 3 12GB (NE75070019K9-GB2050S),,rtx 5070,NE75070019K9-GB2050S,89990.00,1,89990.00,RUB,true,,,regard_2026-09-24.csv,20
+2026-09-24,RU,Regard,mid,ram,,ram,32GB DDR5 6000MHz Netac Shadow III (NTSHD5P60DP-32KC) (2x16GB KIT),,32gb ddr5-6000,NTSHD5P60DP-32KC,51260.00,1,51260.00,RUB,true,true,,regard_2026-09-24.csv,21
+2026-09-24,RU,Regard,mid,ssd,,ssd,2TB MSI SPATIUM M461 (SPATIUM M461 PCIe 4.0 NVMe M.2 2TB),,2tb,,27320.00,1,27320.00,RUB,true,,,regard_2026-09-24.csv,22
+2026-09-24,RU,Regard,mid,motherboard,,motherboard,Gigabyte B650 EAGLE (rev. 1.2),,b650,,11530.00,1,11530.00,RUB,true,,,regard_2026-09-24.csv,23
+2026-09-24,RU,Regard,mid,cooler,,cooler,ID-COOLING SE-224-XTS OEM,id-cooling se-224-xts,cooler,SE-224-XTS,2000.00,1,2000.00,RUB,true,,,regard_2026-09-24.csv,24
+2026-09-24,RU,Regard,mid,psu,,psu,750W Formula VX-750 PLUS,,750w,VX-750,4360.00,1,4360.00,RUB,true,,,regard_2026-09-24.csv,25
+2026-09-24,RU,Regard,mid,case,,case,Ginzzu A400 Black,,case,,1760.00,1,1760.00,RUB,true,,,regard_2026-09-24.csv,26
+2026-09-24,RU,Regard,high,cpu,,cpu,AMD Ryzen 7 9800X3D OEM,amd ryzen 7 9800x3d oem,ryzen 7 9800x3d,,42100.00,1,42100.00,RUB,true,,,regard_2026-09-24.csv,27
+2026-09-24,RU,Regard,high,gpu,,gpu,NVIDIA GeForce RTX 5080 MSI OC 16GB (RTX 5080 16G SHADOW 3X OC),,rtx 5080,,164990.00,1,164990.00,RUB,true,,,regard_2026-09-24.csv,28
+2026-09-24,RU,Regard,high,ram,,ram,32GB DDR5 6000MHz Patriot Viper Xtreme 5 RGB Mpower (PVXR532G60C30KM) (2x16GB KIT),,32gb ddr5-6000,PVXR532G60C30KM,57990.00,1,57990.00,RUB,true,true,,regard_2026-09-24.csv,29
+2026-09-24,RU,Regard,high,ssd,,ssd,2TB Samsung 990 PRO (MZ-V9P2T0BW),samsung 990 pro 2tb,2tb,MZ-V9P2T0BW,37990.00,1,37990.00,RUB,true,,,regard_2026-09-24.csv,30
+2026-09-24,RU,Regard,high,motherboard,,motherboard,MSI PRO X870E-P WIFI,,x870e,X870E-P,26130.00,1,26130.00,RUB,true,,,regard_2026-09-24.csv,31
+2026-09-24,RU,Regard,high,cooler,,cooler,Thermalright Peerless Assassin 120 SE,thermalright peerless assassin 120 se,cooler,,3590.00,1,3590.00,RUB,true,,,regard_2026-09-24.csv,32
+2026-09-24,RU,Regard,high,psu,,psu,850W Formula FV-850BD,,850w,FV-850BD,4750.00,1,4750.00,RUB,true,,,regard_2026-09-24.csv,33
+2026-09-24,RU,Regard,high,case,,case,Ginzzu A400 Black,,case,,1760.00,1,1760.00,RUB,true,,,regard_2026-09-24.csv,34
+2026-09-24,US,Newegg,budget_am4,cpu,,cpu,"AMD Ryzen 5 5600 6-Core, 12-Thread Unlocked Desktop Processor with Wraith Stealth Cooler",amd ryzen 5 5600 box,ryzen 5 5600,,99.63,1,99.63,USD,true,,,newegg_2026-09-24.csv,2
+2026-09-24,US,Newegg,budget_am4,gpu,,gpu,GIGABYTE Low Profile GeForce RTX 5050 8GB GDDR6 PCI Express 5.0 x8 Low Profile Graphics Card GV-N5050OC-8GL,,rtx 5050,GV-N5050OC-8GL,309.99,1,309.99,USD,true,,,newegg_2026-09-24.csv,3
+2026-09-24,US,Newegg,budget_am4,ram,,ram,Silicon Power 16GB (2 x 8GB) DDR4 3200 (PC4 25600) 288-Pin XPOWER Turbine DDR4 SDRAM Desktop Memory Model SP016GXLZU320BDA,,16gb ddr4-3200,SP016GXLZU320BDA,109.79,1,109.79,USD,true,true,,newegg_2026-09-24.csv,4
+2026-09-24,US,Newegg,budget_am4,ssd,,ssd,Western Digital WD Green SN350 NVMe M.2 2280 1TB PCI-Express 3.0 x4 Internal Solid State Drive (SSD) WDS100T3G0C,wd green sn350 1tb,1tb,WDS100T3G0C,114.99,1,114.99,USD,true,,,newegg_2026-09-24.csv,5
+2026-09-24,US,Newegg,budget_am4,motherboard,,motherboard,"GIGABYTE A520M S2H mATX AM4 4+3 Phases Digital PWM, GIGABYTE Gaming GbE LAN, NVMe PCIe 3.0 x4 M.2, 3 Display Interfaces, Q-Flash Plus, RGB Fusion 2.0, Motherboard",,a520,,73.99,1,73.99,USD,true,,,newegg_2026-09-24.csv,6
+2026-09-24,US,Newegg,budget_am4,cooler,,cooler,Thermaltake UX400 ARGB CPU Cooler; 4xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 240W TDP; Black; CL-P142-AL12SW-A,thermaltake ux400,cooler,CL-P142-AL12SW-A,19.99,1,19.99,USD,true,,,newegg_2026-09-24.csv,7
+2026-09-24,US,Newegg,budget_am4,psu,,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),,650w,,54.99,1,54.99,USD,true,,,newegg_2026-09-24.csv,8
+2026-09-24,US,Newegg,budget_am4,case,,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",,case,,31.99,1,31.99,USD,true,,,newegg_2026-09-24.csv,9
+2026-09-24,US,Newegg,budget_am5,cpu,,cpu,AMD Ryzen 5 7600 - Ryzen 5 7000 Series Zen 4 6-Core 3.8 GHz - Socket AM5 65W - AMD Radeon Graphics Processor - 100-100001015,,ryzen 5 7600,,108.21,1,108.21,USD,true,,,newegg_2026-09-24.csv,10
+2026-09-24,US,Newegg,budget_am5,gpu,,gpu,"GIGABYTE GeForce RTX 5060 GAMING OC V2 8G Graphics Card, 8GB 128-bit GDDR7, PCIe 5.0 x8, WINDFORCE cooling system, GV-N5060GAMING OCV2-8GD Video Card",,rtx 5060,GV-N5060GAMING;OCV2-8GD,459.99,1,459.99,USD,true,,,newegg_2026-09-24.csv,11
+2026-09-24,US,Newegg,budget_am5,ram,,ram,Team Group 16GB (2 x 8GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Memory Model FLBD516G6000HC38ADC01,,16gb ddr5-6000,FLBD516G6000HC38ADC01,239.99,1,239.99,USD,true,true,,newegg_2026-09-24.csv,12
+2026-09-24,US,Newegg,budget_am5,ssd,,ssd,Micron 1TB NVMe 2400 M.2 TCG-Opal Client SSD Model (MTFDKBA1T0QFM-1BD15ABYYR),,1tb,MTFDKBA1T0QFM-1BD15ABYYR,120.00,1,120.00,USD,true,,,newegg_2026-09-24.csv,13
+2026-09-24,US,Newegg,budget_am5,motherboard,,motherboard,MSI PRO B650M-B motherboard AMD B650 Socket AM5 micro ATX,,b650,B650M-B,95.06,1,95.06,USD,true,,,newegg_2026-09-24.csv,14
+2026-09-24,US,Newegg,budget_am5,cooler,,cooler,Thermaltake UX400 ARGB CPU Cooler; 4xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 240W TDP; Black; CL-P142-AL12SW-A,thermaltake ux400,cooler,CL-P142-AL12SW-A,19.99,1,19.99,USD,true,,,newegg_2026-09-24.csv,15
+2026-09-24,US,Newegg,budget_am5,psu,,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),,650w,,54.99,1,54.99,USD,true,,,newegg_2026-09-24.csv,16
+2026-09-24,US,Newegg,budget_am5,case,,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",,case,,31.99,1,31.99,USD,true,,,newegg_2026-09-24.csv,17
+2026-09-24,US,Newegg,mid,cpu,,cpu,AMD Ryzen 5 9600X - Ryzen 5 9000 Series Granite Ridge (Zen 5) 6-Core 3.9 GHz Socket AM5 65W AMD Radeon Graphics Processor - 100-000001405,,ryzen 5 9600x,,194.99,1,194.99,USD,true,,,newegg_2026-09-24.csv,18
+2026-09-24,US,Newegg,mid,gpu,,gpu,GIGABYTE Eagle GeForce RTX 5070 12GB GDDR7 PCI Express 5.0 ATX Graphics Card GV-N5070EAGLE OC-12GD,,rtx 5070,GV-N5070EAGLE;OC-12GD,829.99,1,829.99,USD,true,,,newegg_2026-09-24.csv,19
+2026-09-24,US,Newegg,mid,ram,,ram,CORSAIR Vengeance RGB 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Custom Lab GBT Wood Desktop Memory Model CMH32GX5M2E6000Z36WGWL,,32gb ddr5-6000,CMH32GX5M2E6000Z36WGWL,439.99,1,439.99,USD,true,true,,newegg_2026-09-24.csv,20
+2026-09-24,US,Newegg,mid,ssd,,ssd,Micron SSD 2500 PCIe Gen4 NVMe SSD QLC NAND 2TB M.2 MTFDKBA2T0QGN-1BN1AABYYR,,2tb,MTFDKBA2T0QGN-1BN1AABYYR,169.99,1,169.99,USD,true,,,newegg_2026-09-24.csv,21
+2026-09-24,US,Newegg,mid,motherboard,,motherboard,"ASRock B650 PG LIGHTING AM5 ATX Motherboard, 4 slots DDR5, PCIE 4.0 x16,  3 M.2 slots,  2.5Gb Lan, 7.1 Nahimic Audio , Rear USB3.2 Gen2X2 Type_C ,  14+2+1 Power Phase, AMD CrossFire.",,b650,,123.62,1,123.62,USD,true,,,newegg_2026-09-24.csv,22
+2026-09-24,US,Newegg,mid,cooler,,cooler,"JONSBO CR1000E BLACK 120MM Single Tower CPU Cooler , 4 Heatpipes Radiator , RGB, PWM Air Cooler Supports LGA1700,D-TDP:210W, Black",,cooler,,24.99,1,24.99,USD,true,,,newegg_2026-09-24.csv,23
+2026-09-24,US,Newegg,mid,psu,,psu,be quiet! Pure Power 13 M 750W ATX 3.1 Power Supply | 80 Plus Gold Efficiency | PCIe 5.1 GPUs | Modular | BP026US,,750w,,89.90,1,89.90,USD,true,,,newegg_2026-09-24.csv,24
+2026-09-24,US,Newegg,mid,case,,case,DIYPC DIY-V3-ATX Black USB3.0 ATX Mid Tower Computer Case w/ 1 x 120mm Fan x Rear (Pre-Installed),,case,DIY-V3-ATX,48.99,1,48.99,USD,true,,,newegg_2026-09-24.csv,25
+2026-09-24,US,Newegg,high,cpu,,cpu,AMD Ryzen 7 9800X3D - Ryzen 7 9000 Series 8-Core Socket AM5 120W AMD Radeon Graphics Processor - 100-000001084 - OEM,amd ryzen 7 9800x3d oem,ryzen 7 9800x3d,,409.99,1,409.99,USD,true,,,newegg_2026-09-24.csv,26
+2026-09-24,US,Newegg,high,gpu,,gpu,MSI INSPIRE GeForce RTX 5080 16GB GDDR7 PCI Express 5.0 Graphics Card RTX 5080 16G INSPIRE 3X OC,,rtx 5080,,1449.99,1,1449.99,USD,true,,,newegg_2026-09-24.csv,27
+2026-09-24,US,Newegg,high,ram,,ram,CORSAIR Vengeance RGB 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Custom Lab GBT Wood Desktop Memory Model CMH32GX5M2E6000Z36WGWL,,32gb ddr5-6000,CMH32GX5M2E6000Z36WGWL,439.99,1,439.99,USD,true,true,,newegg_2026-09-24.csv,28
+2026-09-24,US,Newegg,high,ssd,,ssd,"SAMSUNG 990 PRO 2TB, 3-bit MLC V-NAND, M.2 (2280), NVMe 2.0, R/W(Max) 7,450MB/s/6,900MB/s, 1,400K/1,550K IOPS, 1200TBW, 5 Years Warranty",samsung 990 pro 2tb,2tb,,429.50,1,429.50,USD,true,,,newegg_2026-09-24.csv,29
+2026-09-24,US,Newegg,high,motherboard,,motherboard,ASRock X870 Challenger WiFi AM5 AMD X870 ATX Motherboard,,x870,,169.99,1,169.99,USD,true,,,newegg_2026-09-24.csv,30
+2026-09-24,US,Newegg,high,cooler,,cooler,"Thermalright Peerless Assassin 120 SE CPU Air Cooler,6 Heat Pipes Aluminium Heatsink Cover, for Intel 1700/115X/1200, AMD AM4/AM5",thermalright peerless assassin 120 se,cooler,,47.90,1,47.90,USD,true,,,newegg_2026-09-24.csv,31
+2026-09-24,US,Newegg,high,psu,,psu,"Segotep 850W Power Supply 2025 PCIe 5.1 & ATX 3.1 Gaming PSU 80 Plus Gold Full Modular Support NVIDIA RTX 20/30/40 Series & AMD GPU, 120mm Silent FDB Fan, 5 Year Warranty",,850w,,89.99,1,89.99,USD,true,,,newegg_2026-09-24.csv,32
+2026-09-24,US,Newegg,high,case,,case,DIYPC DIY-V3-ATX Black USB3.0 ATX Mid Tower Computer Case w/ 1 x 120mm Fan x Rear (Pre-Installed),,case,DIY-V3-ATX,48.99,1,48.99,USD,true,,,newegg_2026-09-24.csv,33
