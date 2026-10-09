@@ -1,0 +1,5 @@
+# Dashboard (dashboard/app.py). Price collection needs requirements.txt instead.
+streamlit==1.65.0
+# installed with streamlit, pinned to the versions the dashboard was tested with
+pandas==3.0.6
+altair==6.3.0

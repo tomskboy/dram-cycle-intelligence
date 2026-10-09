@@ -1,0 +1,10 @@
+[theme]
+base = "light"
+primaryColor = "#D1495B"
+textColor = "#14171F"
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "viewer"
