@@ -8,14 +8,23 @@ against the rules in CLASSES (subcategory, condition, model, characteristics);
 see src/collect_rules.py. A component with no acceptable listing is written
 as an explicit "not_found" row.
 
+"not_found" is written only when Newegg answered with a readable search
+result. A page that fails to load, has no window.__initialState__ JSON (a
+block or captcha page), carries JSON that is not a search result, or ends
+the result list early raises FetchError, and then no snapshot file is
+written at all. A listing counts as new only when all four condition flags
+are present and agree (IsNew, not refurbished, not open-box, ProductType 1).
+
 Usage:
     python src/collect_newegg.py            # writes data/raw/newegg_<UTC date>.csv
 """
 
 import json
+import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -28,6 +37,9 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/128.0 Safari/537.36")
 SITE = "https://www.newegg.com"
 MAX_PAGES = 3
+RAW = Path(__file__).resolve().parents[1] / "data" / "raw"
+# Text of Newegg's bot-check and block pages; such pages carry no search state.
+BLOCKED_TEXT = re.compile(r"are you a human|captcha|access denied|request blocked|unusual traffic", re.I)
 PSU_BRANDS = (r"corsair|seasonic|msi|evga|thermaltake|cooler master|be quiet|deepcool|montech|super flower"
               r"|fsp|gigabyte|asus|nzxt|lian li|phanteks|antec|silverstone|segotep|apevia|sama")
 
@@ -102,14 +114,31 @@ CLASSES = {
 }
 
 
+class FetchError(Exception):
+    """A search page could not be loaded or read; the snapshot must not be saved."""
+
+
+CONDITION_FLAGS = ("IsNew", "IsRefurbished", "IsOpenBoxed")
+
+
 def _condition(feature):
-    if feature.get("IsRefurbished"):
+    """Item condition from ItemCell.Feature. "new" only when every flag is
+    present and they agree; missing data is "unknown", disagreeing flags are
+    "conflicting". check() accepts only "new"."""
+    if not isinstance(feature, dict):
+        return "unknown"
+    flags = [feature.get(k) for k in CONDITION_FLAGS]
+    product_type = feature.get("ProductType")
+    if not all(isinstance(f, bool) for f in flags) or type(product_type) is not int:
+        return "unknown"
+    is_new, refurbished, open_box = flags
+    if is_new and not refurbished and not open_box and product_type == 1:
+        return "new"
+    if refurbished and not is_new and not open_box and product_type != 1:
         return "refurbished"
-    if feature.get("IsOpenBoxed"):
+    if open_box and not is_new and not refurbished:
         return "open_box"
-    if feature.get("ProductType") not in (None, 1):
-        return f"product_type_{feature.get('ProductType')}"
-    return "new"
+    return "conflicting"
 
 
 def listings_from_state(state):
@@ -133,7 +162,7 @@ def listings_from_state(state):
             price=Decimal(str(price)),
             currency="USD",
             category=sub.get("SubcategoryDescription") or "",
-            condition=_condition(cell.get("Feature") or {}),
+            condition=_condition(cell.get("Feature")),
             in_stock=bool(cell.get("Instock")),
             is_bundle=bool(p.get("IsCombo")),
         ))
@@ -141,34 +170,77 @@ def listings_from_state(state):
 
 
 def state_from_html(html):
+    """The search state of a results page. Raises FetchError unless the page
+    holds a search result: a Products list (possibly empty) and an integer
+    TotalItemCount."""
     m = re.search(r"window\.__initialState__\s*=\s*(\{.*?\})\s*;?\s*</script>", html, re.S)
-    return json.loads(m.group(1)) if m else {}
+    if not m:
+        if BLOCKED_TEXT.search(html):
+            raise FetchError("blocked: bot-check or access-denied page instead of search results")
+        raise FetchError("no window.__initialState__ JSON on the page")
+    try:
+        state = json.loads(m.group(1))
+    except json.JSONDecodeError as e:
+        raise FetchError(f"window.__initialState__ is not valid JSON: {e}") from None
+    if not isinstance(state, dict) or not isinstance(state.get("Products"), list):
+        raise FetchError("window.__initialState__ has no Products list")
+    if type(state.get("TotalItemCount")) is not int:
+        raise FetchError("window.__initialState__ has no TotalItemCount")
+    return state
 
 
 def page_url(query, n, page=1):
     return f"{SITE}/p/pl?" + urllib.parse.urlencode({"N": n, "d": query, "Order": 1, "page": page})
 
 
-def collect(r):
-    found = []
+def fetch_html(url):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=40) as resp:
+            return resp.read().decode("utf-8", "replace")
+    except (urllib.error.URLError, OSError) as e:  # HTTPError, timeouts, resets
+        raise FetchError(f"download failed: {e}") from None
+
+
+def collect(r, fetch=fetch_html, pause=1.5):
+    """All listings from up to MAX_PAGES result pages. An empty result is
+    accepted only when Newegg reports it (Products [] and no items left by
+    TotalItemCount); any failed or unreadable page raises FetchError."""
+    found, seen = [], 0
     for page in range(1, MAX_PAGES + 1):
-        req = urllib.request.Request(page_url(r.queries[0], r.params["N"], page), headers={"User-Agent": UA})
-        html = urllib.request.urlopen(req, timeout=40).read().decode("utf-8", "replace")
-        items = listings_from_state(state_from_html(html))
-        if not items:
+        url = page_url(r.queries[0], r.params["N"], page)
+        try:
+            state = state_from_html(fetch(url))
+        except FetchError as e:
+            raise FetchError(f"page {page} of {url}: {e}") from None
+        products, total = state["Products"], state["TotalItemCount"]
+        if not products:
+            if seen < total:
+                raise FetchError(f"page {page} of {url} is empty, but Newegg reports {total} items "
+                                 f"and only {seen} were read")
             break
-        found += items
-        time.sleep(1.5)
+        seen += len(products)
+        found += listings_from_state(state)
+        if seen >= total:
+            break
+        time.sleep(pause)
     return found
 
 
-def main():
+def main(fetch=fetch_html, raw_dir=RAW, pause=1.5):
     started = datetime.now(timezone.utc)
     day = started.date().isoformat()
+    out = Path(raw_dir) / f"newegg_{day}.csv"
+    if out.exists():
+        sys.exit(f"{out} exists; snapshots are never overwritten")
     rows = []
     for build, rules in CLASSES.items():
         for r in rules:
-            best, outcomes, accepted = pick(collect(r), r)
+            try:
+                listings = collect(r, fetch=fetch, pause=pause)
+            except FetchError as e:
+                sys.exit(f"{build}/{r.component}: {e}\nsnapshot not saved")
+            best, outcomes, accepted = pick(listings, r)
             rows.append(row(date=day, collected_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
                             market="US", retailer="Newegg", currency="USD", build=build, rule=r,
                             best=best, outcomes=outcomes, accepted=accepted,
@@ -176,10 +248,13 @@ def main():
             label = f"${best.price}  {best.title[:70]}" if best else "NOT FOUND"
             print(f"{build}/{r.component}: {label}  {dict(outcomes)}", file=sys.stderr)
 
-    out = Path(__file__).resolve().parents[1] / "data" / "raw" / f"newegg_{day}.csv"
+    # Write next to the target and rename, so an interrupted run leaves no partial snapshot.
+    tmp = out.with_name(out.name + ".part")
+    write(tmp, rows)
     if out.exists():
+        tmp.unlink()
         sys.exit(f"{out} exists; snapshots are never overwritten")
-    write(out, rows)
+    os.replace(tmp, out)
     print(f"saved {out}")
 
 
