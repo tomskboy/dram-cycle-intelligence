@@ -8,7 +8,9 @@ Raw files in data/raw/ are read only. Outputs (all UTF-8 CSV):
     items.csv               every price line, normalized, with selection flags
     builds.csv              one priced build per shop snapshot, with completeness
     ru_us_components.csv    RU vs US per component, with match type
-    ru_us_builds.csv        RU vs US per build: total and same-SKU premiums
+    ru_us_builds.csv        RU vs US per build: total and same-SKU premiums,
+                            comparability and its build-specific limitations
+    ru_us_limitations.csv   limitations that apply to every RU/US comparison
     price_history.csv       monthly Regard prices from the web archive
     observations.csv        single shelf prices from screenshots
 """
@@ -19,7 +21,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from .builds import assemble, select_alternatives
-from .compare import compare
+from .compare import GENERAL_LIMITATIONS, compare
 from .sources import discover, load_fx, load_history, load_observations, load_reference, load_snapshot
 from .specs import part_numbers, product_key, spec_key
 from .taxonomy import build_label, build_order
@@ -70,13 +72,13 @@ def run(raw_dir=RAW, reference_dir=REFERENCE):
     tables["builds.csv"] = (
         ["snapshot_date", "market", "retailer", "build", "build_label", "currency", "total",
          "complete", "components_present", "components_required", "missing_components",
-         "memory_ssd_share", "gpu_share", "ram_choice"],
+         "incomplete_reason", "memory_ssd_share", "gpu_share", "ram_choice"],
         [[b["snapshot_date"], b["market"], b["retailer"], b["build"], build_label(b["build"]), b["currency"],
           b["total"], b["complete"], b["components_present"], b["components_required"],
-          b["missing_components"], _share(b["memory_ssd_share"]), _share(b["gpu_share"]), b["ram_choice"]]
+          b["missing_components"], b["incomplete_reason"], _share(b["memory_ssd_share"]), _share(b["gpu_share"]), b["ram_choice"]]
          for b in builds],
     )
-    comp_cols = ["snapshot_date", "build", "component", "match_type", "ru_retailer", "ru_sku", "ru_qty",
+    comp_cols = ["snapshot_date", "build", "component", "match_type", "checked_params", "ru_retailer", "ru_sku", "ru_qty",
                  "ru_rub", "ru_spec", "us_retailer", "us_sku", "us_qty", "us_usd", "us_rub", "us_spec",
                  "ru_premium"]
     tables["ru_us_components.csv"] = (
@@ -84,12 +86,17 @@ def run(raw_dir=RAW, reference_dir=REFERENCE):
         [[_share(r[c]) if c == "ru_premium" else r[c] for c in comp_cols] for r in comp_rows],
     )
     build_cols = ["snapshot_date", "build", "ru_retailer", "us_retailer", "fx_rub_per_usd", "ru_total_rub",
-                  "us_total_usd", "us_total_rub", "ru_premium", "like_for_like", "n_same_sku", "n_analogous",
+                  "us_total_usd", "us_total_rub", "ru_premium", "comparability", "comparable_verified",
+                  "limitations", "n_same_sku", "n_analogous",
                   "n_different_spec", "n_unverified", "same_sku_ru_rub", "same_sku_us_rub", "same_sku_premium"]
     tables["ru_us_builds.csv"] = (
         build_cols,
         [[_share(r[c]) if c.endswith("premium") else
           (format(r[c], "f") if c == "fx_rub_per_usd" else r[c]) for c in build_cols] for r in build_rows],
+    )
+    tables["ru_us_limitations.csv"] = (
+        ["scope", "limitation"],
+        [["all", text] for text in GENERAL_LIMITATIONS],
     )
     history = load_history(Path(raw_dir) / "regard_history.csv")
     history.sort(key=lambda h: (h["component"], h["product_id"], h["month"]))

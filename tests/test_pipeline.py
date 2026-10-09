@@ -2,6 +2,7 @@
 
 import csv
 import hashlib
+import shutil
 import tempfile
 import unittest
 from decimal import Decimal
@@ -154,6 +155,87 @@ class Selection(unittest.TestCase):
         self.assertEqual([i["variant"] for i in items if i["selected"]], ["kit"])
 
 
+NEWEGG_HEADER = ["date", "market", "retailer", "build", "component", "sku", "price", "currency", "candidates"]
+FULL_AM4_US = [["2026-01-01", "US", "Newegg", "budget_am4", c, sku, price, "USD", 1] for c, sku, price in (
+    ("cpu", "AMD Ryzen 5 5600 with Wraith Stealth Cooler", 100),
+    ("gpu", "GeForce RTX 5050 8GB", 300),
+    ("ram", "Brand 16GB (2 x 8GB) DDR4 3200", 100),
+    ("ssd", "Brand 1TB NVMe", 100),
+    ("motherboard", "Brand A520M", 70),
+    ("cooler", "Some cooler", 20),
+    ("psu", "Brand 500W", 50),
+    ("case", "Some case", 30),
+)]
+RAM_OK = [regard_row("ram_single", "8GB DDR4 3200MHz Brand", 5500, qty=2)]
+RAM_ONE_OFF_SPEC = [regard_row("ram_single", "8GB DDR4 3200MHz Brand", 5500, qty=1)]
+RAM_ALL_OFF_SPEC = [regard_row("ram_kit", "8GB DDR4 3200MHz Brand (2x4GB KIT)", 4000),
+                    regard_row("ram_single", "16GB DDR5 6000MHz Brand", 9000)]
+
+
+def run_with_ram(ram_rows):
+    """Full pipeline on a temporary raw directory: a Regard AM4 build with the
+    given RAM lines plus a complete Newegg AM4 build of the same date."""
+    with tempfile.TemporaryDirectory() as d:
+        raw, ref = Path(d) / "raw", Path(d) / "reference"
+        raw.mkdir()
+        ref.mkdir()
+        rows = [r for r in FULL_AM4 if not r[4].startswith("ram")] + ram_rows
+        write_csv(raw / "regard_2026-01-01.csv", REGARD_HEADER, rows)
+        write_csv(raw / "newegg_2026-01-01.csv", NEWEGG_HEADER, FULL_AM4_US)
+        shutil.copy(RAW / "regard_history.csv", raw)
+        shutil.copy(RAW / "manual_observations.csv", raw)
+        shutil.copy(REFERENCE / "builds.csv", ref)
+        write_csv(ref / "fx_rates.csv", ["date", "currency", "rub_per_unit", "source"],
+                  [["2026-01-01", "USD", "80", "test"]])
+        tables = run(raw, ref)
+    out = {}
+    for name, (header, rows) in tables.items():
+        out[name] = [dict(zip(header, r)) for r in rows]
+    return out
+
+
+class RamOffSpec(unittest.TestCase):
+    """RAM lines that miss the reference spec are never selected; the build is
+    incomplete and left out of the RU/US comparison."""
+
+    def test_single_off_spec_line_is_not_selected(self):
+        items = [item("ram", "8GB DDR4 3200MHz Brand", 5940, qty=1, variant="single")]
+        select_alternatives(items, REF)
+        self.assertFalse(items[0]["selected"])
+        self.assertFalse(items[0]["meets_spec"])
+
+    def test_all_off_spec_alternatives_are_not_selected(self):
+        items = [item("ram", "8GB DDR4 3200MHz (2x4GB KIT)", 4000, variant="kit"),
+                 item("ram", "16GB DDR5 6000MHz", 9000, variant="single")]
+        select_alternatives(items, REF)
+        self.assertEqual([i["selected"] for i in items], [False, False])
+        self.assertEqual([i["meets_spec"] for i in items], [False, False])
+
+    def test_control_valid_ram_is_compared(self):
+        out = run_with_ram(RAM_OK)
+        ru = next(b for b in out["builds.csv"] if b["market"] == "RU")
+        self.assertTrue(ru["complete"])
+        self.assertEqual(len(out["ru_us_builds.csv"]), 1)
+
+    def assert_incomplete_and_not_compared(self, ram_rows, lines):
+        out = run_with_ram(ram_rows)
+        ru = next(b for b in out["builds.csv"] if b["market"] == "RU")
+        self.assertFalse(ru["complete"])
+        self.assertEqual(ru["missing_components"], "ram")
+        self.assertEqual(ru["incomplete_reason"], f"ram: {lines} line(s) collected, none meets reference spec")
+        self.assertEqual(ru["ram_choice"], "")
+        # total without RAM: 10000+40000+9000+5000+1000+3000+1500
+        self.assertEqual(ru["total"], Decimal(69500))
+        self.assertEqual(out["ru_us_builds.csv"], [])
+        self.assertEqual(out["ru_us_components.csv"], [])
+
+    def test_single_off_spec_line_makes_build_incomplete(self):
+        self.assert_incomplete_and_not_compared(RAM_ONE_OFF_SPEC, 1)
+
+    def test_all_off_spec_alternatives_make_build_incomplete(self):
+        self.assert_incomplete_and_not_compared(RAM_ALL_OFF_SPEC, 2)
+
+
 class Builds(unittest.TestCase):
     def test_qty_multiplies_and_total_uses_one_ram(self):
         with tempfile.TemporaryDirectory() as d:
@@ -249,8 +331,12 @@ class RepositoryData(unittest.TestCase):
     def test_premiums(self):
         b = {(r["build"], r["ru_retailer"]): r for r in self.rows("ru_us_builds.csv")}
         self.assertEqual(round(Decimal(b[("mid", "Regard")]["ru_premium"]) * 100), 27)
-        self.assertTrue(b[("mid", "Regard")]["like_for_like"])
-        self.assertFalse(b[("budget_am4", "Regard")]["like_for_like"])
+        self.assertTrue(b[("mid", "Regard")]["comparable_verified"])
+        self.assertEqual(b[("mid", "Regard")]["comparability"], "сопоставимо по проверенным параметрам")
+        self.assertEqual(b[("mid", "Regard")]["limitations"], "")
+        self.assertFalse(b[("budget_am4", "Regard")]["comparable_verified"])
+        self.assertEqual(b[("budget_am4", "Regard")]["limitations"], "psu: разные характеристики (500w и 650w)")
+        self.assertIn("ram: не проверено, в названии RU нет параметров", b[("budget_am4", "DNS")]["limitations"])
         self.assertEqual(b[("high", "Regard")]["n_same_sku"], 3)
 
     def test_raw_files_unchanged_and_outputs_up_to_date(self):
