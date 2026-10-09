@@ -1,0 +1,84 @@
+{
+ "props": {
+  "initialState": {
+   "listing": {
+    "data": {
+     "saved": {
+      "pages": {
+       "1": {
+        "data": [
+         {
+          "id": 943080,
+          "title": ".....Материнская плата Biostar A520MT (4640) из ремонта",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, HDMI, DisplayPort",
+          "price": 3630,
+          "show_flag": 1,
+          "category_id_char": 1798,
+          "grpid": 503001,
+          "seo_url": "materinskaia-plata-biostar-a520mt-4640-iz-remonta",
+          "vendorcode": "A520MT"
+         },
+         {
+          "id": 943081,
+          "title": ".....Материнская плата MSI A520M-A PRO (5582) из ремонта",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, DVI, HDMI",
+          "price": 3710,
+          "show_flag": 1,
+          "category_id_char": 1798,
+          "grpid": 503001,
+          "seo_url": "materinskaia-plata-msi-a520m-a-pro-5582-iz-remonta",
+          "vendorcode": "A520M-A PRO"
+         },
+         {
+          "id": 655150,
+          "title": "ASUS PRO A520M-C II/CSM",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, DVI, HDMI, DisplayPort, COM",
+          "price": 4390,
+          "show_flag": 1,
+          "category_id_char": 1000,
+          "grpid": 1022,
+          "seo_url": "materinskaia-plata-asus-pro-a520m-c-ii-csm",
+          "vendorcode": "PRO A520M-C II/CSM"
+         },
+         {
+          "id": 794417,
+          "title": "MSI PRO A520M-S",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, HDMI",
+          "price": 5460,
+          "show_flag": 1,
+          "category_id_char": 1000,
+          "grpid": 1022,
+          "seo_url": "materinskaia-plata-msi-pro-a520m-s",
+          "vendorcode": "PRO A520M-S"
+         },
+         {
+          "id": 379419,
+          "title": "MSI A520M-A PRO",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, DVI, HDMI",
+          "price": 5700,
+          "show_flag": 1,
+          "category_id_char": 1000,
+          "grpid": 1022,
+          "seo_url": "materinskaia-plata-msi-a520m-a-pro",
+          "vendorcode": "A520M-A PRO"
+         },
+         {
+          "id": 364363,
+          "title": "ASRock A520M-HVS",
+          "brief": "mATX, сокет AM4, чипсет AMD A520, 2xDDR4, M.2, сеть: 1 Гб/с, HDMI",
+          "price": 5770,
+          "show_flag": 1,
+          "category_id_char": 1000,
+          "grpid": 1022,
+          "seo_url": "materinskaia-plata-asrock-a520m-hvs",
+          "vendorcode": "A520M-HVS"
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
