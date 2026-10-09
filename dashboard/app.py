@@ -187,9 +187,13 @@ with tab_history:
         }), hide_index=True)
 
 # ---------------------------------------------------------------- 4. RU / US
-with tab_ruus:
+def ru_us_section():
     st.subheader("Россия/США")
     dates = d.ru_us_dates(T)
+    if not dates:
+        st.info(f"**{d.NO_RU_US}**", icon="ℹ️")
+        st.caption(d.no_ru_us_reason(T))
+        return
     date = st.selectbox("Дата снимка", dates, index=len(dates) - 1, format_func=d.ru_date, key="ruus_date")
     opts = d.ru_us_options(T, date)
     default = next((n for n, o in enumerate(opts) if o[1] == "Regard"), 0)
@@ -240,3 +244,7 @@ with tab_ruus:
     excluded = d.excluded_from_ru_us(T, date)
     st.caption("Неполные сборки в сравнение не входят" + (": " + ", ".join(excluded) if excluded else
                                                            "; на эту дату таких нет."))
+
+
+with tab_ruus:
+    ru_us_section()

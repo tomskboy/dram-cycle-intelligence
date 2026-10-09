@@ -245,6 +245,26 @@ def history_series(tables, product_id):
 
 # ---------------------------------------------------------------- RU / US
 
+NO_RU_US = "Нет сопоставимых сборок для выбранных данных"
+
+
+def no_ru_us_reason(tables):
+    """Why there is nothing to compare: a pair needs a complete Russian and a
+    complete US build of the same configuration on the same date."""
+    b = tables["builds"]
+    full = b[b["complete"]]
+    ru = set(zip(full[full["market"] == "RU"]["snapshot_date"], full[full["market"] == "RU"]["build"]))
+    us = set(zip(full[full["market"] == "US"]["snapshot_date"], full[full["market"] == "US"]["build"]))
+    parts = ["Для сравнения нужна полная сборка в России и полная сборка в США одной конфигурации на одну дату."]
+    parts.append(f"Полных сборок: в России — {len(ru)}, в США — {len(us)}, совпадающих пар — {len(ru & us)}.")
+    incomplete = b[~b["complete"]]
+    if len(incomplete):
+        parts.append("Неполные сборки: " + ", ".join(
+            f"{RETAILER_LABELS.get(r['retailer'], r['retailer'])} {ru_date(r['snapshot_date'])}: {r['build_label']}"
+            for _, r in incomplete.iterrows()) + ".")
+    return " ".join(parts)
+
+
 def ru_us_dates(tables):
     return sorted(tables["ru_us_builds"]["snapshot_date"].unique())
 

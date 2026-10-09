@@ -179,5 +179,62 @@ class IncompleteBuild(unittest.TestCase):
         self.assertTrue(any("Неполные сборки в сравнение не входят: Регард: Топовая" in c.value for c in at.caption))
 
 
+@unittest.skipUnless(HAVE_DEPS, "dashboard dependencies not installed")
+class NoRuUsPairs(unittest.TestCase):
+    """Processed data built by the real pipeline from data/raw with the PSU
+    removed from every Newegg build: all US builds are incomplete, so there is
+    no complete RU/US pair at all."""
+
+    @classmethod
+    def setUpClass(cls):
+        from src.pipeline import RAW, REFERENCE, run, write
+        cls.tmp = tempfile.TemporaryDirectory()
+        raw = Path(cls.tmp.name) / "raw"
+        shutil.copytree(RAW, raw)
+        path = raw / "newegg_2026-09-24.csv"
+        with open(path, newline="", encoding="utf-8") as f:
+            rows = [r for r in csv.reader(f) if r[4] != "psu"]
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            csv.writer(f).writerows(rows)
+        cls.processed = Path(cls.tmp.name) / "processed"
+        write(run(raw, REFERENCE), cls.processed)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+        os.environ.pop("DASHBOARD_DATA_DIR", None)
+
+    def setUp(self):
+        os.environ["DASHBOARD_DATA_DIR"] = str(self.processed)
+        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.assertEqual(len(self.at.exception), 0, [e.value for e in self.at.exception])
+
+    def test_fixture_has_no_pairs(self):
+        from dashboard import data as d
+        t = d.load(self.processed)
+        self.assertEqual(len(t["ru_us_builds"]), 0)
+        self.assertEqual(len(t["ru_us_components"]), 0)
+        self.assertFalse(t["builds"][t["builds"]["market"] == "US"]["complete"].any())
+
+    def test_ru_us_shows_message(self):
+        at = self.at
+        self.assertTrue(any("Нет сопоставимых сборок для выбранных данных" in i.value for i in at.info))
+        self.assertTrue(any("совпадающих пар — 0" in c.value for c in at.caption))
+        self.assertIsNone(next((s for s in at.selectbox if s.key == "ruus_date"), None))
+
+    def test_other_sections_keep_working(self):
+        at = self.at
+        self.assertEqual(metrics(at)["Стоимость сборки"], "90\u00a0260\u00a0₽")
+        self.assertEqual(metrics(at)["Память и SSD"], "26,4%")
+        at.selectbox(key="cost_shop").set_value("Newegg").run()
+        self.assertEqual(len(at.exception), 0)
+        self.assertIn("Частичная сумма доступных компонентов", metrics(at))
+        at.selectbox(key="hist_kind").set_value("ram").run()
+        at.selectbox(key="hist_product").set_value("395207").run()
+        self.assertEqual(len(at.exception), 0)
+        self.assertTrue(metrics(at)["Наблюдений"].startswith("12 из "))
+        self.assertTrue(any("Нет сопоставимых сборок" in i.value for i in at.info))
+
+
 if __name__ == "__main__":
     unittest.main()
