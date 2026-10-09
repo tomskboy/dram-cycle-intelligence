@@ -1,0 +1,3 @@
+# Streamlit Community Cloud installs the requirements file next to the entry point
+# (dashboard/app.py); this one points to the versions the dashboard is tested with.
+-r ../requirements-dashboard.txt

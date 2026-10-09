@@ -24,6 +24,12 @@ def tables(directory):
     return d.load(directory)
 
 
+missing = d.missing_tables()
+if missing:
+    st.error(f"Нет обработанных данных в {d.data_dir()}: {', '.join(missing)}. "
+             "Их создаёт `python -m src.pipeline` из CSV в data/raw/.", icon="🚫")
+    st.stop()
+
 T = tables(str(d.data_dir()))
 
 st.title("Цикл памяти 2026")
@@ -67,7 +73,7 @@ with tab_cost:
         incomplete_notice(view)
     st.metric(view.total_label, d.money(view.row["total"], cur),
               help="Сумма выбранных позиций: цена × количество.")
-    st.caption(f"Цены на {d.ru_date(date)} · {shop} · компонентов: "
+    st.caption(f"Цены на {d.ru_date(date)} · {shop} · {d.CURRENCY_LABELS[cur]} · компонентов: "
                f"{view.row['components_present']} из {view.row['components_required']}")
 
     # price columns first, so they stay visible on a phone without scrolling sideways
@@ -107,7 +113,8 @@ with tab_structure:
     c1, c2 = st.columns(2)
     c1.metric("Память и SSD", d.pct(mem, signed=False), help=f"Доля от {share_base}")
     c2.metric("Видеокарта", d.pct(gpu, signed=False), help=f"Доля от {share_base}")
-    st.caption(f"Доли от {share_base} · цены на {d.ru_date(date)} · {shop} · {d.build_label(T, build)}")
+    st.caption(f"Доли от {share_base} · цены на {d.ru_date(date)} · {shop} · {d.CURRENCY_LABELS[cur]} · "
+               f"{d.build_label(T, build)}")
 
     s["Сумма"] = s["line_total"].map(lambda v: d.money(v, cur))
     s["Доля"] = s["share"].map(lambda v: d.pct(v, signed=False))
@@ -141,7 +148,7 @@ with tab_structure:
 # ---------------------------------------------------------------- 3. history
 with tab_history:
     st.subheader("История цен")
-    st.caption("Цены Регарда по снимкам веб-архива. Архив сохраняет страницы не каждый месяц; "
+    st.caption("Цены Регарда в рублях (₽) по снимкам веб-архива; дата каждого снимка — в таблице ниже. Архив сохраняет страницы не каждый месяц; "
                "пропущенные месяцы не заполняются.")
     products = d.history_products(T)
     kinds = list(dict.fromkeys(products["component"]))
