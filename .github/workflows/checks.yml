@@ -1,0 +1,32 @@
+name: checks
+
+# Tests and the processed-data check. Offline: no price collection runs here,
+# and tests/offline.py blocks network access during the tests.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dashboard.txt
+
+      - name: Install dashboard dependencies
+        run: python -m pip install -r requirements-dashboard.txt
+
+      - name: Tests (network disabled, no skips allowed)
+        run: python tests/offline.py
+
+      - name: Processed data matches data/raw
+        run: python -m src.pipeline --check
