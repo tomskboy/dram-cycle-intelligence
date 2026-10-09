@@ -21,6 +21,18 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = str(ROOT / "dashboard" / "app.py")
 
 
+SEPTEMBER = "2026-09-24"  # the snapshot the original assertions were written for
+
+
+def pin_date(at, date=SEPTEMBER):
+    """Set every date filter that exists to one snapshot date."""
+    for key in ("cost_date", "struct_date", "ruus_date"):
+        box = next((b for b in at.selectbox if b.key == key), None)
+        if box is not None:
+            box.set_value(date)
+    return at.run()
+
+
 def metrics(at):
     return {m.label: m.value for m in at.metric}
 
@@ -84,7 +96,7 @@ class AppFilters(unittest.TestCase):
 
     def setUp(self):
         os.environ.pop("DASHBOARD_DATA_DIR", None)
-        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.at = pin_date(AppTest.from_file(APP, default_timeout=60).run())
         self.assertEqual(len(self.at.exception), 0, [e.value for e in self.at.exception])
 
     def test_four_sections(self):
@@ -159,7 +171,7 @@ class IncompleteBuild(unittest.TestCase):
 
     def setUp(self):
         os.environ["DASHBOARD_DATA_DIR"] = str(self.processed)
-        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.at = pin_date(AppTest.from_file(APP, default_timeout=60).run())
         self.assertEqual(len(self.at.exception), 0)
 
     def test_partial_sum_is_not_called_build_cost(self):
@@ -191,11 +203,13 @@ class NoRuUsPairs(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         raw = Path(cls.tmp.name) / "raw"
         shutil.copytree(RAW, raw)
-        path = raw / "newegg_2026-09-24.csv"
-        with open(path, newline="", encoding="utf-8") as f:
-            rows = [r for r in csv.reader(f) if r[4] != "psu"]
-        with open(path, "w", newline="", encoding="utf-8") as f:
-            csv.writer(f).writerows(rows)
+        for path in raw.glob("newegg_*.csv"):  # every US snapshot loses its PSU
+            with open(path, newline="", encoding="utf-8") as f:
+                header, *body = list(csv.reader(f))
+            col = header.index("component")  # position differs between snapshot layouts
+            rows = [header] + [r for r in body if r[col] != "psu"]
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                csv.writer(f).writerows(rows)
         cls.processed = Path(cls.tmp.name) / "processed"
         write(run(raw, REFERENCE), cls.processed)
 
@@ -206,7 +220,7 @@ class NoRuUsPairs(unittest.TestCase):
 
     def setUp(self):
         os.environ["DASHBOARD_DATA_DIR"] = str(self.processed)
-        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.at = pin_date(AppTest.from_file(APP, default_timeout=60).run())
         self.assertEqual(len(self.at.exception), 0, [e.value for e in self.at.exception])
 
     def test_fixture_has_no_pairs(self):
@@ -234,6 +248,38 @@ class NoRuUsPairs(unittest.TestCase):
         self.assertEqual(len(at.exception), 0)
         self.assertTrue(metrics(at)["Наблюдений"].startswith("12 из "))
         self.assertTrue(any("Нет сопоставимых сборок" in i.value for i in at.info))
+
+
+@unittest.skipUnless(HAVE_DEPS, "dashboard dependencies not installed")
+class LatestSnapshot(unittest.TestCase):
+    """The 2026-10-09 snapshot from the fixed collectors: Regard has no ATX X870
+    board, so its high-end build is incomplete and left out of RU/US."""
+
+    def setUp(self):
+        os.environ.pop("DASHBOARD_DATA_DIR", None)
+        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.assertEqual(len(self.at.exception), 0, [e.value for e in self.at.exception])
+
+    def test_latest_snapshot_is_the_default(self):
+        self.assertEqual(self.at.selectbox(key="cost_date").value, "2026-10-09")
+        self.assertEqual(self.at.selectbox(key="ruus_date").value, "2026-10-09")
+
+    def test_explicit_gap_shown_as_incomplete_build(self):
+        at = self.at
+        at.selectbox(key="cost_build").set_value("high").run()
+        m = metrics(at)
+        self.assertNotIn("Стоимость сборки", m)
+        self.assertEqual(m["Частичная сумма доступных компонентов"], "322\u00a0380\u00a0₽")
+        self.assertTrue(any("Неполная сборка" in w.value and "материнская плата" in w.value for w in at.warning))
+        self.assertTrue(any(c.value == "Причина: Материнская плата: подходящий товар не найден в магазине"
+                            for c in at.caption))
+        self.assertEqual(len(at.exception), 0)
+
+    def test_ru_us_uses_the_new_rate_and_skips_the_incomplete_build(self):
+        at = self.at
+        self.assertTrue(any("85,4173" in i.value and "09.10.2026" in i.value for i in at.info))
+        self.assertFalse(any("Топовая" in o for o in at.selectbox(key="ruus_build").options))
+        self.assertTrue(any("Неполные сборки в сравнение не входят: Регард: Топовая" in c.value for c in at.caption))
 
 
 if __name__ == "__main__":

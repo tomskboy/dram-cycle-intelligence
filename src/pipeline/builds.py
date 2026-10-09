@@ -51,7 +51,7 @@ def select_alternatives(items, reference):
         target = parse_ram_target(spec) if component == "ram" else None
         for it in group:
             it["meets_spec"] = _ram_meets(it, target) if component == "ram" else None
-        eligible = [it for it in group if it["meets_spec"] is not False]
+        eligible = [it for it in group if it["meets_spec"] is not False and it.get("status", "ok") == "ok"]
         chosen = min(eligible, key=lambda it: (it["line_total"], it["qty"], it["source_row"])) if eligible else None
         for it in group:
             it["selected"] = it is chosen
@@ -59,6 +59,8 @@ def select_alternatives(items, reference):
             if it is chosen:
                 it["selection_note"] = (f"cheapest of {len(group)} alternatives meeting spec (others: {others})"
                                         if len(group) > 1 else "")
+            elif it.get("status", "ok") != "ok":
+                it["selection_note"] = "not found at the shop: no listing passed the collector's checks"
             elif it["meets_spec"] is False:
                 it["selection_note"] = f"not selected: does not meet reference spec ({spec})"
             else:
@@ -71,11 +73,16 @@ def assemble(items, reference):
     Builds where some component was collected but rejected still appear, with
     the reason in incomplete_reason."""
     groups = defaultdict(dict)
-    seen = defaultdict(lambda: defaultdict(int))  # build key -> component -> lines collected
+    seen = defaultdict(lambda: defaultdict(int))  # build key -> component -> lines with a price
+    gaps = defaultdict(set)                       # build key -> components the collector did not find
     currencies = defaultdict(set)
     for it in items:
         key = tuple(it[k] for k in GROUP)
-        seen[key][it["component"]] += 1
+        if it.get("status", "ok") == "ok":
+            seen[key][it["component"]] += 1
+        else:
+            gaps[key].add(it["component"])
+            seen[key][it["component"]] += 0
         currencies[key].add(it["currency"])
         if it["selected"]:
             groups[key][it["component"]] = it
@@ -87,6 +94,7 @@ def assemble(items, reference):
         required = [c for c in COMPONENTS if c in reference.get(row["build"], dict.fromkeys(COMPONENTS))]
         missing = [c for c in required if c not in parts]
         reasons = [f"{c}: {seen[key][c]} line(s) collected, none meets reference spec" if seen[key][c]
+                   else f"{c}: not found at the shop" if c in gaps[key]
                    else f"{c}: not collected" for c in missing]
         total = sum((p["line_total"] for p in parts.values()), Decimal(0))
         if len(currencies[key]) != 1:

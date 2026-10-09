@@ -308,8 +308,10 @@ class RepositoryData(unittest.TestCase):
         self.assertEqual(totals[("Newegg", "2026-09-24", "budget_am4")], Decimal("815.36"))
         self.assertEqual(totals[("Newegg", "2026-09-24", "high")], Decimal("3086.34"))
 
-    def test_all_builds_complete(self):
-        self.assertTrue(all(b["complete"] for b in self.rows("builds.csv")))
+    def test_only_the_explicit_gap_is_incomplete(self):
+        incomplete = [(b["snapshot_date"], b["retailer"], b["build"], b["incomplete_reason"])
+                      for b in self.rows("builds.csv") if not b["complete"]]
+        self.assertEqual(incomplete, [("2026-10-09", "Regard", "high", "motherboard: not found at the shop")])
 
     def test_one_selected_line_per_component(self):
         seen = {}
@@ -318,10 +320,13 @@ class RepositoryData(unittest.TestCase):
                 key = (it["snapshot_date"], it["retailer"], it["build"], it["component"])
                 self.assertNotIn(key, seen)
                 seen[key] = it
-        self.assertEqual(len(seen), 10 * 8)
+        builds = self.rows("builds.csv")
+        self.assertEqual(len(seen), sum(b["components_present"] for b in builds))
+        self.assertEqual(len(seen), len(builds) * 8 - 1)  # one explicit gap
 
     def test_ru_us_match_types(self):
-        mt = {(r["build"], r["ru_retailer"], r["component"]): r["match_type"] for r in self.rows("ru_us_components.csv")}
+        mt = {(r["build"], r["ru_retailer"], r["component"]): r["match_type"]
+              for r in self.rows("ru_us_components.csv") if r["snapshot_date"] == "2026-09-24"}
         self.assertEqual(mt[("high", "Regard", "ssd")], "same_sku")
         self.assertEqual(mt[("high", "Regard", "cpu")], "same_sku")
         self.assertEqual(mt[("budget_am4", "Regard", "cpu")], "analogous")
@@ -329,7 +334,7 @@ class RepositoryData(unittest.TestCase):
         self.assertEqual(mt[("high", "Regard", "motherboard")], "different_spec")
 
     def test_premiums(self):
-        b = {(r["build"], r["ru_retailer"]): r for r in self.rows("ru_us_builds.csv")}
+        b = {(r["build"], r["ru_retailer"]): r for r in self.rows("ru_us_builds.csv") if r["snapshot_date"] == "2026-09-24"}
         self.assertEqual(round(Decimal(b[("mid", "Regard")]["ru_premium"]) * 100), 27)
         self.assertTrue(b[("mid", "Regard")]["comparable_verified"])
         self.assertEqual(b[("mid", "Regard")]["comparability"], "сопоставимо по проверенным параметрам")

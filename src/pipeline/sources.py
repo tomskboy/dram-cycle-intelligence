@@ -29,11 +29,18 @@ def read_csv(path):
 
 def _item(row, n, source, *, sku, unit_price, qty, raw_total=None):
     component, variant = normalize_component(row["component"])
-    unit_price = money(unit_price)
+    status = row.get("status") or "ok"
     qty = int(qty)
-    line_total = unit_price * qty
-    if raw_total is not None and money(raw_total) != line_total:
-        raise ValueError(f"{source}:{n}: price {raw_total} != unit_price {unit_price} x qty {qty}")
+    if status == "ok":
+        unit_price = money(unit_price)
+        line_total = unit_price * qty
+        if raw_total is not None and money(raw_total) != line_total:
+            raise ValueError(f"{source}:{n}: price {raw_total} != unit_price {unit_price} x qty {qty}")
+    elif status == "not_found":
+        # explicit gap written by the collector: no price, never selected
+        unit_price = line_total = None
+    else:
+        raise ValueError(f"{source}:{n}: unknown status {status!r}")
     return {
         "snapshot_date": row["date"],
         "market": row["market"],
@@ -47,19 +54,30 @@ def _item(row, n, source, *, sku, unit_price, qty, raw_total=None):
         "qty": qty,
         "line_total": line_total,
         "currency": row["currency"],
+        "status": status,
+        "condition": row.get("condition", ""),
+        "url": row.get("url", ""),
+        "collected_at": row.get("collected_at", ""),
+        "rejected": row.get("rejected", ""),
         "source_file": source,
         "source_row": n,
     }
 
 
 def load_snapshot(path):
-    """Build line items from one shop snapshot."""
+    """Build line items from one shop snapshot. Two layouts exist: the original
+    one (no status column) and the one written by src/collect_rules.py since
+    2026-10-09 (status, url, collected_at, condition; unit_price x qty for every
+    shop; "not_found" rows for explicit gaps)."""
     path = Path(path)
     kind = SNAPSHOT.match(path.name).group(1)
     items = []
     # data rows start on line 2 of the file
     for n, row in enumerate(read_csv(path), start=2):
-        if kind == "regard":
+        if "status" in row:
+            items.append(_item(row, n, path.name, sku=row["sku"], unit_price=row["unit_price"],
+                               qty=row["qty"], raw_total=row["price"]))
+        elif kind == "regard":
             items.append(_item(row, n, path.name, sku=row["sku"], unit_price=row["unit_price"],
                                qty=row["qty"], raw_total=row["price"]))
         elif kind == "newegg":
