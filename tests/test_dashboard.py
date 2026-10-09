@@ -4,9 +4,13 @@
 They are skipped when pandas or streamlit is not installed."""
 
 import csv
+import json
 import os
 import shutil
+import subprocess
+import sys
 import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -142,6 +146,70 @@ class AppFilters(unittest.TestCase):
         self.assertEqual(metrics(at)["Разница"], "+27,2%")
         at.selectbox(key="ruus_build").set_value(("high", "Regard")).run()
         self.assertEqual(metrics(at)["Разница только на одинаковых SKU"], "+11,7%")
+
+
+@unittest.skipUnless(HAVE_DEPS, "dashboard dependencies not installed")
+class HostedApp(unittest.TestCase):
+    """What a visitor of the hosted app sees, and what opening it must not do."""
+
+    def setUp(self):
+        os.environ.pop("DASHBOARD_DATA_DIR", None)
+        self.at = AppTest.from_file(APP, default_timeout=60).run()
+        self.assertEqual(len(self.at.exception), 0, [e.value for e in self.at.exception])
+
+    def test_date_and_currency_next_to_prices(self):
+        at = self.at
+        self.assertTrue(any("Цены на 09.10.2026" in c.value and "валюта: рубли (₽)" in c.value for c in at.caption))
+        at.selectbox(key="cost_shop").set_value("Newegg").run()
+        self.assertTrue(any("Цены на 09.10.2026" in c.value and "валюта: доллары США ($)" in c.value
+                            for c in at.caption))
+        self.assertTrue(any("валюта: рубли (₽)" in c.value for c in at.caption if "Доли от" in c.value))
+        self.assertTrue(any("в рублях (₽)" in c.value for c in at.caption if "веб-архива" in c.value))
+
+    def test_ru_us_limitations_visible(self):
+        box = next(e for e in self.at.expander if e.label == "Ограничения сравнения")
+        text = " ".join(m.value for m in box.markdown)
+        self.assertIn("НДС", text)
+        self.assertIn("Newegg", text)
+        self.assertTrue(any("₽ за $1" in i.value for i in self.at.info))
+
+    def test_opening_the_app_does_not_run_collectors_or_use_the_network(self):
+        """A fresh interpreter with sockets disabled opens the app; no collector
+        or pipeline module is imported and the app renders without errors."""
+        probe = textwrap.dedent(f"""
+            import json, socket, sys
+            def deny(*a, **k):
+                raise OSError("network disabled")
+            socket.socket.connect = socket.create_connection = socket.getaddrinfo = deny
+            from streamlit.testing.v1 import AppTest
+            at = AppTest.from_file({APP!r}, default_timeout=60).run()
+            print(json.dumps({{
+                "errors": [e.value for e in at.exception],
+                "tabs": [t.label for t in at.tabs],
+                "loaded": sorted(m for m in sys.modules
+                                 if m.split(".")[0] in ("src", "collect_rules", "collect_regard",
+                                                        "collect_newegg", "collect_local", "pipeline")),
+            }}))
+        """)
+        env = {k: v for k, v in os.environ.items() if k != "DASHBOARD_DATA_DIR"}
+        out = subprocess.run([sys.executable, "-c", probe], cwd=ROOT, env=env,
+                             capture_output=True, text=True, timeout=120)
+        self.assertEqual(out.returncode, 0, out.stderr[-2000:])
+        result = json.loads(out.stdout.strip().splitlines()[-1])
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(len(result["tabs"]), 4)
+        self.assertEqual(result["loaded"], [])
+
+    def test_missing_processed_data_gives_a_clear_error(self):
+        with tempfile.TemporaryDirectory() as empty:
+            os.environ["DASHBOARD_DATA_DIR"] = empty
+            try:
+                at = AppTest.from_file(APP, default_timeout=60).run()
+            finally:
+                os.environ.pop("DASHBOARD_DATA_DIR", None)
+        self.assertEqual(len(at.exception), 0)
+        self.assertTrue(any("Нет обработанных данных" in e.value and "builds.csv" in e.value for e in at.error))
+        self.assertEqual(len(at.tabs), 0)
 
 
 @unittest.skipUnless(HAVE_DEPS, "dashboard dependencies not installed")

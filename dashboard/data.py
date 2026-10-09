@@ -30,6 +30,7 @@ MEMORY = ("ram", "ssd")
 
 RETAILER_LABELS = {"Regard": "Регард", "DNS": "DNS", "Newegg": "Newegg (США)"}
 MARKET_LABELS = {"RU": "Россия", "US": "США"}
+CURRENCY_LABELS = {"RUB": "валюта: рубли (₽)", "USD": "валюта: доллары США ($)"}
 
 MATCH_LABELS = {
     "same_sku": "Тот же SKU",
@@ -54,6 +55,12 @@ def data_dir():
 
 def _bool(series):
     return series.map({"true": True, "false": False})
+
+
+def missing_tables(directory=None):
+    """Processed tables absent from the directory (empty when all are there)."""
+    directory = Path(directory or data_dir())
+    return [f"{name}.csv" for name in TABLES if not (directory / f"{name}.csv").is_file()]
 
 
 def load(directory=None):
