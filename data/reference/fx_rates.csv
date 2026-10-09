@@ -1,2 +1,3 @@
 date,currency,rub_per_unit,source
 2026-09-24,USD,84.3969,"Bank of Russia official rate set for 24.09.2026"
+2026-10-09,USD,85.4173,"Bank of Russia official rate set for 09.10.2026 (cbr.ru XML_daily, date_req=09/10/2026)"

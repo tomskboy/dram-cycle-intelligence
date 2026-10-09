@@ -81,13 +81,13 @@ with tab_cost:
     st.dataframe(parts, hide_index=True, column_config={"Товар": st.column_config.TextColumn(width="medium")})
 
     if len(view.rejected):
-        with st.expander(f"Не выбранные варианты ({len(view.rejected)})"):
+        with st.expander(f"Не выбранные варианты и пропуски ({len(view.rejected)})"):
             st.dataframe(pd.DataFrame({
                 "Компонент": view.rejected["component"].map(d.COMPONENT_LABELS),
                 "Сумма": view.rejected["line_total"].map(lambda v: d.money(v, cur)),
                 "Почему не выбран": view.rejected.apply(d.rejection_reason, axis=1),
                 "Кол-во": view.rejected["qty"],
-                "Товар": view.rejected["sku"],
+                "Товар": view.rejected["sku"].replace("", "—"),
             }), hide_index=True)
 
 # ---------------------------------------------------------------- 2. structure

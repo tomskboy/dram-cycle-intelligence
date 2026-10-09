@@ -1,0 +1,95 @@
+{
+ "props": {
+  "initialState": {
+   "listing": {
+    "data": {
+     "saved": {
+      "pages": {
+       "1": {
+        "data": [
+         {
+          "id": 9047,
+          "title": "8GB DDR4 3200MHz CBR SO-DIMM (CD4-SS08G32M22-01)",
+          "brief": "8 ГБ, DDR4, 25600 МБ/с, CL22-22-22-52, 1.2 В",
+          "price": 6050,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 8372,
+          "seo_url": "operativnaia-pamiat-8gb-ddr4-3200mhz-cbr-so-dimm-cd4-ss08g32m22-01",
+          "vendorcode": "CD4-SS08G32M22-01"
+         },
+         {
+          "id": 382357,
+          "title": "8GB DDR4 3200MHz Foxline SO-DIMM (FL3200D4S22-8G)",
+          "brief": "8 ГБ, DDR4, 25600 МБ/с, CL22, 1.2 В",
+          "price": 6080,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 6178,
+          "seo_url": "operativnaia-pamiat-8gb-ddr4-3200mhz-foxline-so-dimm-fl3200d4s22-8g",
+          "vendorcode": "FL3200D4S22-8G"
+         },
+         {
+          "id": 458188,
+          "title": "8GB DDR4 3200MHz ExeGate HiPower (EX293814RUS)",
+          "brief": "8 ГБ, DDR4, 25600 МБ/с, CL19, 1.2 В",
+          "price": 6660,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 7328,
+          "seo_url": "operativnaia-pamiat-8gb-ddr4-3200mhz-exegate-hipower-ex293814rus",
+          "vendorcode": "EX293814RUS"
+         },
+         {
+          "id": 770607,
+          "title": "8GB DDR4 3200MHz QUMO (QUM4U-8G3200NN22)",
+          "brief": "8 ГБ, DDR4, 25600 МБ/с, CL22, 1.2 В",
+          "price": 6820,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 7361,
+          "seo_url": "operativnaia-pamiat-8gb-ddr4-3200mhz-qumo-qum4u-8g3200nn22",
+          "vendorcode": "QUM4U-8G3200NN22"
+         },
+         {
+          "id": 395199,
+          "title": "16GB DDR4 3200MHz Kingston Fury Impact SO-DIMM (KF432S20IBK2/16) (2x8GB KIT)",
+          "brief": "16 ГБ, 2 модуля DDR4, 25600 МБ/с, CL20, 1.2 В, XMP профиль",
+          "price": 24360,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 3044,
+          "seo_url": "operativnaia-pamiat-16gb-ddr4-3200mhz-kingston-fury-impact-so-dimm-kf432s20ibk2-16-2x8gb-kit",
+          "vendorcode": "KF432S20IBK2/16"
+         },
+         {
+          "id": 757301,
+          "title": "16GB DDR4 3200MHz Netac Shadow III (NTSHD4P32DP-16K) (2x8GB KIT)",
+          "brief": "16 ГБ, 2 модуля DDR4, 25600 МБ/с, CL16-20-20-40, 1.35 В, XMP профиль, радиатор",
+          "price": 14040,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 7270,
+          "seo_url": "operativnaia-pamiat-16gb-ddr4-3200mhz-netac-shadow-iii-ntshd4p32dp-16k-2x8gb-kit",
+          "vendorcode": "NTSHD4P32DP-16K"
+         },
+         {
+          "id": 395207,
+          "title": "16GB DDR4 3200MHz Kingston Fury Beast Black (KF432C16BBK2/16) (2x8GB KIT)",
+          "brief": "16 ГБ, 2 модуля DDR4, 25600 МБ/с, CL16, 1.35 В, XMP профиль, радиатор",
+          "price": 23190,
+          "show_flag": 1,
+          "category_id_char": 1010,
+          "grpid": 3064,
+          "seo_url": "operativnaia-pamiat-16gb-ddr4-3200mhz-kingston-fury-beast-black-kf432c16bbk2-16-2x8gb-kit",
+          "vendorcode": "KF432C16BBK2/16"
+         }
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

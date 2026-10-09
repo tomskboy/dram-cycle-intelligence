@@ -9,3 +9,11 @@ snapshot_date,market,retailer,build,build_label,currency,total,complete,componen
 2026-09-24,US,Newegg,budget_am5,Бюджетная AM5,USD,1130.22,true,8,8,,,0.3185,0.4070,listing x1
 2026-09-24,US,Newegg,mid,Средняя,USD,1922.46,true,8,8,,,0.3173,0.4317,listing x1
 2026-09-24,US,Newegg,high,Топовая,USD,3086.34,true,8,8,,,0.2817,0.4698,listing x1
+2026-10-09,RU,Regard,budget_am4,Бюджетная AM4,RUB,87860.00,true,8,8,,,0.2881,0.4701,single x2
+2026-10-09,RU,Regard,budget_am5,Бюджетная AM5,RUB,134660.00,true,8,8,,,0.4081,0.3784,listing x1
+2026-10-09,RU,Regard,mid,Средняя,RUB,216800.00,true,8,8,,,0.3928,0.4335,listing x1
+2026-10-09,RU,Regard,high,Топовая,RUB,322380.00,false,7,8,motherboard,motherboard: not found at the shop,0.2983,0.5397,listing x1
+2026-10-09,US,Newegg,budget_am4,Бюджетная AM4,USD,923.58,true,8,8,,,0.2544,0.4381,listing x1
+2026-10-09,US,Newegg,budget_am5,Бюджетная AM5,USD,1224.96,true,8,8,,,0.3078,0.3755,listing x1
+2026-10-09,US,Newegg,mid,Средняя,USD,1918.92,true,8,8,,,0.3544,0.4325,listing x1
+2026-10-09,US,Newegg,high,Топовая,USD,3281.33,true,8,8,,,0.2964,0.4876,listing x1

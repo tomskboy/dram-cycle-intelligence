@@ -70,8 +70,8 @@ def load(directory=None):
         b[col] = b[col].astype(int)
 
     i = t["items"]
-    for col in ("unit_price", "line_total"):
-        i[col] = i[col].astype(float)
+    for col in ("unit_price", "line_total"):  # empty for explicit "not found" rows
+        i[col] = pd.to_numeric(i[col], errors="coerce")
     i["qty"] = i["qty"].astype(int)
     i["selected"] = _bool(i["selected"])
 
@@ -183,6 +183,8 @@ def build_view(tables, date, retailer, build):
 
 
 def rejection_reason(line):
+    if line.get("status", "ok") == "not_found":
+        return "подходящий товар не найден в магазине"
     if line["meets_spec"] == "false":
         return "не подходит под типовую сборку (объём или тип памяти)"
     return "есть подходящий вариант дешевле"
@@ -300,6 +302,8 @@ def reason_label(text):
         name = COMPONENT_LABELS.get(component, component)
         if rest == "not collected":
             out.append(f"{name}: нет в собранных данных")
+        elif rest == "not found at the shop":
+            out.append(f"{name}: подходящий товар не найден в магазине")
         elif rest.endswith("none meets reference spec"):
             n = rest.split(" ")[0]
             out.append(f"{name}: найдено вариантов — {n}, ни один не подходит под типовую сборку")

@@ -131,7 +131,8 @@ FAMILIES = (
     ("ssd", r"kingston\s+nv3", "kingston nv3"),
     ("ssd", r"crucial\s+bx500", "crucial bx500"),
     ("ssd", r"wd\s+green\s+sn350", "wd green sn350"),
-    ("cooler", r"peerless\s+assassin\s+120\s+se", "thermalright peerless assassin 120 se"),
+    # versions are different products: "120 SE", "120 SE V3", "120 SE ARGB V2"
+    ("cooler", r"peerless\s+assassin\s+120\s+se\b(?:\s+(argb))?(?:\s+(v\d))?", "thermalright peerless assassin 120 se"),
     ("cooler", r"se-902-sd", "id-cooling se-902-sd v3"),
     ("cooler", r"se-224-xts", "id-cooling se-224-xts"),
     ("cooler", r"thermaltake\s+ux400", "thermaltake ux400"),
@@ -158,7 +159,11 @@ def product_key(component, title):
         model, pack = cpu_model(t), cpu_packaging(t)
         return f"amd {model} {pack}" if model and pack else None
     for comp, pattern, family in FAMILIES:
-        if comp == component and re.search(pattern, t):
+        m = re.search(pattern, t) if comp == component else None
+        if m:
+            variant = " ".join(g for g in m.groups() if g)
+            if variant:
+                return f"{family} {variant}"
             if component == "ssd":
                 tb = ssd_capacity_tb(t)
                 return f"{family} {tb}tb" if tb else None

@@ -61,13 +61,14 @@ def run(raw_dir=RAW, reference_dir=REFERENCE):
     tables["items.csv"] = (
         ["snapshot_date", "market", "retailer", "build", "component", "variant", "raw_component",
          "sku", "product_key", "spec_key", "part_numbers", "unit_price", "qty", "line_total",
-         "currency", "selected", "meets_spec", "selection_note", "source_file", "source_row"],
+         "currency", "status", "condition", "url", "collected_at", "selected", "meets_spec", "selection_note",
+         "source_file", "source_row"],
         [[it["snapshot_date"], it["market"], it["retailer"], it["build"], it["component"], it["variant"],
           it["raw_component"], it["sku"], product_key(it["component"], it["sku"]) or "",
           spec_key(it["component"], it["sku"], it["qty"]) or "",
           ";".join(sorted(part_numbers(it["sku"]))), it["unit_price"], it["qty"], it["line_total"],
-          it["currency"], it["selected"], it["meets_spec"], it["selection_note"],
-          it["source_file"], it["source_row"]] for it in items],
+          it["currency"], it["status"], it["condition"], it["url"], it["collected_at"], it["selected"],
+          it["meets_spec"], it["selection_note"], it["source_file"], it["source_row"]] for it in items],
     )
     tables["builds.csv"] = (
         ["snapshot_date", "market", "retailer", "build", "build_label", "currency", "total",
