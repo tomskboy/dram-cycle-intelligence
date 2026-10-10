@@ -1,0 +1,34 @@
+date,market,retailer,build,component,sku,unit_price,qty,price,currency,candidates
+2026-10-08,RU,Regard,budget_am4,cpu,AMD Ryzen 5 5600 OEM,11600,1,11600,RUB,1
+2026-10-08,RU,Regard,budget_am4,gpu,NVIDIA GeForce RTX 5050 ASUS OC 8GB (DUAL-RTX5050-O8G),41430,1,41430,RUB,7
+2026-10-08,RU,Regard,budget_am4,ram_kit,16GB DDR4 3200MHz Netac Shadow III (NTSHD4P32DP-16K) (2x8GB KIT),14040,1,14040,RUB,17
+2026-10-08,RU,Regard,budget_am4,ram_single,8GB DDR4 3200MHz Netac Shadow III (NTSHD4P32SP-08K),6910,2,13820,RUB,35
+2026-10-08,RU,Regard,budget_am4,ssd,1TB Patriot P220 (P220S1TB25),11990,1,11990,RUB,25
+2026-10-08,RU,Regard,budget_am4,motherboard,.....Материнская плата Biostar A520MT (4640) из ремонта,3630,1,3630,RUB,22
+2026-10-08,RU,Regard,budget_am4,cooler,ID-COOLING SE-902-SD V3,1030,1,1030,RUB,1
+2026-10-08,RU,Regard,budget_am4,psu,450W Formula FV-450LT,2730,1,2730,RUB,25
+2026-10-08,RU,Regard,budget_am4,case,ExeGate BAA-303 Black,1490,1,1490,RUB,56
+2026-10-08,RU,Regard,budget_am5,cpu,AMD Ryzen 5 7500F OEM,13270,1,13270,RUB,1
+2026-10-08,RU,Regard,budget_am5,gpu,NVIDIA GeForce RTX 5060 Palit White OC 8GB (NE75060U19P1-GB2063M),50960,1,50960,RUB,17
+2026-10-08,RU,Regard,budget_am5,ram,16GB DDR5 6000MHz Kingston Fury Beast (KF560C30BBEK2-16) (2x8GB KIT),37990,1,37990,RUB,4
+2026-10-08,RU,Regard,budget_am5,ssd,1TB MSI SPATIUM M461 (SPATIUM M461 PCIe 4.0 NVMe M.2 1TB),16970,1,16970,RUB,2
+2026-10-08,RU,Regard,budget_am5,motherboard,MSI PRO B650M-E,9470,1,9470,RUB,9
+2026-10-08,RU,Regard,budget_am5,cooler,ID-COOLING SE-902-SD V3,1030,1,1030,RUB,1
+2026-10-08,RU,Regard,budget_am5,psu,650W Formula FV-650LT,3000,1,3000,RUB,37
+2026-10-08,RU,Regard,budget_am5,case,ExeGate BAA-303 Black,1490,1,1490,RUB,56
+2026-10-08,RU,Regard,mid,cpu,AMD Ryzen 5 9600X OEM,18280,1,18280,RUB,1
+2026-10-08,RU,Regard,mid,gpu,NVIDIA GeForce RTX 5070 Palit Infinity 3 12GB (NE75070019K9-GB2050S),93990,1,93990,RUB,12
+2026-10-08,RU,Regard,mid,ram,32GB DDR5 6000MHz Netac Shadow II White (NTSWD5P60DP-32W) (2x16GB KIT),58350,1,58350,RUB,64
+2026-10-08,RU,Regard,mid,ssd,2TB MSI SPATIUM M461 (SPATIUM M461 PCIe 4.0 NVMe M.2 2TB),26990,1,26990,RUB,3
+2026-10-08,RU,Regard,mid,motherboard,Gigabyte B650 EAGLE (rev. 1.2),11440,1,11440,RUB,7
+2026-10-08,RU,Regard,mid,cooler,ID-COOLING SE-224-XTS OEM,1840,1,1840,RUB,6
+2026-10-08,RU,Regard,mid,psu,750W Formula FV-750LT,4270,1,4270,RUB,41
+2026-10-08,RU,Regard,mid,case,Ginzzu A400 Black,1760,1,1760,RUB,13
+2026-10-08,RU,Regard,high,cpu,AMD Ryzen 7 9800X3D OEM,42100,1,42100,RUB,1
+2026-10-08,RU,Regard,high,gpu,NVIDIA GeForce RTX 5080 Palit GamingPro 16GB (NE75080019T2-GB2031A),173990,1,173990,RUB,27
+2026-10-08,RU,Regard,high,ram,32GB DDR5 6000MHz Patriot Viper Xtreme 5 RGB Mpower (PVXR532G60C30KM) (2x16GB KIT),64990,1,64990,RUB,21
+2026-10-08,RU,Regard,high,ssd,2TB Samsung 990 PRO (MZ-V9P2T0BW),37990,1,37990,RUB,2
+2026-10-08,RU,Regard,high,motherboard,MSI PRO X870E-P WIFI,25340,1,25340,RUB,29
+2026-10-08,RU,Regard,high,cooler,Thermalright Peerless Assassin 120 SE,3290,1,3290,RUB,6
+2026-10-08,RU,Regard,high,psu,850W Formula FV-850BD,4750,1,4750,RUB,44
+2026-10-08,RU,Regard,high,case,Ginzzu A400 Black,1760,1,1760,RUB,13

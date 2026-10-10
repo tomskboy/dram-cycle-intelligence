@@ -1,0 +1,27 @@
+date,market,retailer,build,component,sku,price,currency,candidates
+2026-10-08,US,Newegg,budget_am4,cpu,AMD Ryzen 5 5600 - Ryzen 5 5000 Series Vermeer (Zen 3) 6-Core 3.5 GHz Socket AM4 65W None Integrated Graphics Desktop Processor - 100-100000927CBX - International Version With Warranty Of Three Years,98.68,USD,7
+2026-10-08,US,Newegg,budget_am4,gpu,ZOTAC VESPERA OC HA GeForce RTX 5050 8GB GDDR6 PCI Express 5.0 x8 ATX Graphics Card GeForce RTX5050 8G VESPERA OC HA,404.65,USD,22
+2026-10-08,US,Newegg,budget_am4,ram,CORSAIR Vengeance LPX 16GB (2 x 8GB) 288-Pin PC RAM DDR4 3200 (PC4 25600) Desktop Memory Model CMK16GX4M2E3200C16W,119.0,USD,32
+2026-10-08,US,Newegg,budget_am4,ssd,"Western Digital WD_BLACK SN770 M.2 2280 1TB PCIe Gen4 16GT/s, up to 4 Lanes Internal Solid State Drive (SSD) WDS100T3X0E",119.99,USD,10
+2026-10-08,US,Newegg,budget_am4,motherboard,ASUS 90MB1500-M0EAY0 AM4 AMD A520 SATA 6Gb/s Micro ATX AMD Motherboard,104.97,USD,22
+2026-10-08,US,Newegg,budget_am4,cooler,Thermaltake UX500 ARGB CPU Cooler; 5xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 260W TDP; Black; CL-P144-AL12SW-A,16.99,USD,24
+2026-10-08,US,Newegg,budget_am4,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),49.99,USD,1
+2026-10-08,US,Newegg,budget_am4,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",31.99,USD,23
+2026-10-08,US,Newegg,budget_am5,gpu,"GIGABYTE GeForce RTX 5060 GAMING OC V2 8G Graphics Card, 8GB 128-bit GDDR7, PCIe 5.0 x8, WINDFORCE cooling system, GV-N5060GAMING OCV2-8GD",459.99,USD,50
+2026-10-08,US,Newegg,budget_am5,ram,Klevv 16GB (2 x 8GB) DDR5 6000 (PC5 48000) Desktop Memory Model KD58GU880-60A300F,256.99,USD,12
+2026-10-08,US,Newegg,budget_am5,ssd,Micron 1TB NVMe 2400 M.2 TCG-Opal Client SSD Model (MTFDKBA1T0QFM-1BD15ABYYR),120.0,USD,4
+2026-10-08,US,Newegg,budget_am5,motherboard,MSI PRO B650M-B motherboard AMD B650 Socket AM5 micro ATX,90.63,USD,49
+2026-10-08,US,Newegg,budget_am5,cooler,Thermaltake UX500 ARGB CPU Cooler; 5xØ6mm Copper Heatpipes; 120mm PWM Fan; 700~1800 RPM; Intel/AMD Compatible; Single Tower; 260W TDP; Black; CL-P144-AL12SW-A,16.99,USD,72
+2026-10-08,US,Newegg,budget_am5,psu,SEGOTEP 650W 80 Plus Gold Power Supply Non-Modular with 6+2 Pin Connectors PFC Protection and RoHS Compliance 120mm Silent Fan Gaming PSU Black (5 Years Warranty),49.99,USD,1
+2026-10-08,US,Newegg,budget_am5,case,"matx case,itx case,High Airflow Micro ATX PC Case, Support MATX, Mini-ITX, Micro ATX case Slim with USB2.0x2 I/O Port, Black Without Fans",31.99,USD,17
+2026-10-08,US,Newegg,mid,cpu,"Thermaltake LCGS NE 9696X-V170B Gaming Desktop (AMD Ryzen 5 9600X, AMD Radeon RX 9060 XT 16GB, 16GB DDR5 6000MT/s Memory, 1TB NVMe M.2, 650W PSU, Wifi, Windows 11) N17B-B850-96X-LCS",1499.99,USD,2
+2026-10-08,US,Newegg,mid,ram,CORSAIR Vengeance 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Desktop Memory Model CMK32GX5M2E6000C36,459.99,USD,72
+2026-10-08,US,Newegg,mid,ssd,Micron SSD 2500 PCIe Gen4 NVMe SSD QLC NAND 2TB M.2 MTFDKBA2T0QGN-1BN1AABYYR,169.99,USD,8
+2026-10-08,US,Newegg,mid,motherboard,"ASUS TUF GAMING B650E-PLUS WIFI AMD B650 ATX motherboard, 12+2+1 80A DrMOS power stages, DDR5, PCIe 5.0 Ready, 3x M.2, Wi-Fi 6E, 2.5Gb LAN, DisplayPort, HDMI, USB Type-C, BIOS FlashBack, Aura Sync",149.99,USD,5
+2026-10-08,US,Newegg,mid,cooler,"JONSBO CR1000E BLACK 120MM Single Tower CPU Cooler , 4 Heatpipes Radiator , RGB, PWM Air Cooler Supports LGA1700,D-TDP:210W, Black",22.99,USD,59
+2026-10-08,US,Newegg,mid,case,Thermaltake V100 Perforated ATX Mid-Tower Chassis with One Pre-installed 120mm Fan and a Perforated Side Panel,49.99,USD,18
+2026-10-08,US,Newegg,high,cpu,Andromeda Insights V3 Advanced 50 - RTX 5070 12GB GDDR7 | Ryzen 7 9800X3D 4.7 GHz (5.2 GHz Turbo Boost) | 32GB DDR5 6000MHz | 1TB Gen4 SSD | 850W Gold PSU | ARGB Fans | Wi-Fi + BT | Win 11,2399.99,USD,2
+2026-10-08,US,Newegg,high,ram,CORSAIR Vengeance 32GB (2 x 16GB) 288-Pin PC RAM DDR5 6000 (PC5 48000) Desktop Memory Model CMK32GX5M2E6000C36,459.99,USD,42
+2026-10-08,US,Newegg,high,ssd,"SAMSUNG SSD 990 PRO with Heatsink 2TB, PCIe 4.0, Sew. Read Speeds Up-to 7,450MB/s, Compatible with PlayStation®5 (MZ-V9P2T0CW)",483.75,USD,9
+2026-10-08,US,Newegg,high,motherboard,"MSI MAG X870 Tomahawk WiFi Gaming Motherboard (AMD Ryzen 9000/8000/7000 Series Processors, AM5, DDR5, PCIe 5.0, M.2 Gen5, SATA 6Gb/s, USB 40Gbps, HDMI/DP, Wi-Fi 7, Bluetooth 5.4, 5Gbps LAN, ATX)",366.99,USD,23
+2026-10-08,US,Newegg,high,case,COUGAR MX430 Air RGB Black ATX Mid Tower Computer Case,59.99,USD,13
